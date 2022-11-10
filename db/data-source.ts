@@ -7,13 +7,10 @@ export const dataSourceOptions: DataSourceOptions = {
   username: 'lois',
   database: 'jardins_api',
   password: '696969',
-  entities: [__dirname + '/**/*.entity{.ts,.js}'],
+  entities: ['dist/**/*.entity.js'],
   migrationsRun: false,
-  synchronize: true,
-  migrations: [__dirname + '/migrations/**/*{.ts,.js}'],
-  // cli: {
-  //   migrationsDir: 'src/migrations',
-  // },
+  synchronize: false,
+  migrations: ['dist/db/migrations/**/*.js'],
 };
 
 const dataSource = new DataSource(dataSourceOptions);
