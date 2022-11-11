@@ -31,12 +31,15 @@ export class Product {
   @ApiProperty()
   picture: string;
 
+  @ApiProperty()
   @CreateDateColumn({ type: 'timestamp' })
   createdAt!: Date;
 
+  @ApiProperty()
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt!: Date;
 
+  @ApiProperty()
   @ManyToMany(() => Order, (order) => order.products)
   orders: Order[];
 }

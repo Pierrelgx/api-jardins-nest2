@@ -23,12 +23,15 @@ export class User {
   @ApiProperty()
   password: string;
 
+  @ApiProperty()
   @CreateDateColumn({ type: 'timestamp' })
   createdAt!: Date;
 
+  @ApiProperty()
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt!: Date;
 
+  @ApiProperty()
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
 }

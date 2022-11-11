@@ -26,11 +26,11 @@ export class Order {
   @ApiProperty()
   amount: number;
 
-  @Column()
   @ApiProperty()
   @CreateDateColumn({ type: 'timestamp' })
   createdAt!: Date;
 
+  @ApiProperty()
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt!: Date;
 
@@ -39,6 +39,7 @@ export class Order {
   })
   user: User;
 
+  @ApiProperty()
   @ManyToMany(() => Product, (product) => product.orders)
   @JoinTable()
   products: Product[];
