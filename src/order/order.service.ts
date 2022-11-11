@@ -1,26 +1,38 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
+import { Order } from './entities/order.entity';
 
 @Injectable()
 export class OrderService {
+  constructor(
+    @InjectRepository(Order) private ordersRepository: Repository<Order>,
+  ) {}
+
   create(createOrderDto: CreateOrderDto) {
-    return 'This action adds a new order';
+    const newOrder = this.ordersRepository.create(createOrderDto);
+
+    return this.ordersRepository.save(newOrder);
   }
 
   findAll() {
-    return `This action returns all order`;
+    return this.ordersRepository.find();
   }
 
   findOne(id: number) {
-    return `This action returns a #${id} order`;
+    return this.ordersRepository.findOneBy({ id });
   }
 
-  update(id: number, updateOrderDto: UpdateOrderDto) {
-    return `This action updates a #${id} order`;
+  async update(id: number, updateOrderDto: UpdateOrderDto) {
+    const order = await this.findOne(id);
+    return this.ordersRepository.save({ ...order, ...updateOrderDto });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} order`;
+  async remove(id: number) {
+    const order = await this.findOne(id);
+
+    return this.ordersRepository.remove(order);
   }
 }
