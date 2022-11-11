@@ -39,9 +39,7 @@ export class Order {
   })
   user: User;
 
-  @ManyToMany(() => Product, (product) => product.orders, {
-    onDelete: 'SET NULL',
-  })
+  @ManyToMany(() => Product, (product) => product.orders)
   @JoinTable()
   products: Product[];
 }

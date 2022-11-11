@@ -37,8 +37,6 @@ export class Product {
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt!: Date;
 
-  @ManyToMany(() => Order, (order) => order.products, {
-    onDelete: 'SET NULL',
-  })
+  @ManyToMany(() => Order, (order) => order.products)
   orders: Order[];
 }
