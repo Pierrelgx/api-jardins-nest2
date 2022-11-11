@@ -1,36 +1,38 @@
 import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product } from './entities/product.entity';
 
 @Injectable()
 export class ProductsService {
-  private products: Product[];
+  constructor(
+    @InjectRepository(Product) private productsRepository: Repository<Product>,
+  ) {}
 
-  createProduct(createProductDto: CreateProductDto): Product {
-    const newProduct = { ...createProductDto };
+  create(createProductDto: CreateProductDto) {
+    const newProduct = this.productsRepository.create(createProductDto);
 
-    this.products.push(newProduct);
-
-    return newProduct;
+    return this.productsRepository.save(newProduct);
   }
 
-  findAll(name?: string): Product[] {
-    if (name) {
-      return this.products.filter((product) => product.name === name);
-    }
-    return this.products;
+  findAll() {
+    return this.productsRepository.find();
   }
 
-  findOne(productId: number) {
-    return this.products.find((product) => product.id === productId);
+  findOne(id: number) {
+    return this.productsRepository.findOneBy({ id });
   }
 
-  update(productId: number, updateProductDto: UpdateProductDto) {
-    return `This action updates a #${productId} product`;
+  async update(id: number, updateProductDto: UpdateProductDto) {
+    const product = await this.findOne(id);
+    return this.productsRepository.save({ ...product, ...updateProductDto });
   }
 
-  remove(productId: number) {
-    return `This action removes a #${productId} product`;
+  async remove(id: number) {
+    const product = await this.findOne(id);
+
+    return this.productsRepository.remove(product);
   }
 }

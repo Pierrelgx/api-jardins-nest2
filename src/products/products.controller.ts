@@ -10,23 +10,39 @@ import {
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
-import { ApiTags } from '@nestjs/swagger';
+import {
+  ApiBadRequestResponse,
+  ApiCreatedResponse,
+  ApiNotFoundResponse,
+  ApiOkResponse,
+  ApiTags,
+} from '@nestjs/swagger';
+import { Product } from './entities/product.entity';
 
 @ApiTags('products')
 @Controller('products')
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
+  @ApiCreatedResponse({ type: Product, description: 'create new product' })
+  @ApiBadRequestResponse()
   @Post()
   create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.createProduct(createProductDto);
+    return this.productsService.create(createProductDto);
   }
 
+  @ApiOkResponse({
+    type: Product,
+    isArray: true,
+    description: 'finds all products',
+  })
   @Get()
   findAll() {
     return this.productsService.findAll();
   }
 
+  @ApiOkResponse({ type: Product, description: 'finds a specific product' })
+  @ApiNotFoundResponse()
   @Get(':id')
   findOne(@Param('id') id: string) {
     return this.productsService.findOne(+id);

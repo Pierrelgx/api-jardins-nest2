@@ -3,9 +3,6 @@ import { IsUrl } from 'class-validator';
 
 export class CreateProductDto {
   @ApiProperty()
-  id: number;
-
-  @ApiProperty()
   name: string;
 
   @ApiProperty()

@@ -6,14 +6,12 @@ import {
   Param,
   ParseIntPipe,
   Post,
-  Query,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
-  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { CreateUserDto } from './dto/create-user.dto';
@@ -26,16 +24,15 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @ApiOkResponse({ type: User, isArray: true, description: 'finds all users' })
-  @ApiQuery({ name: 'name', required: false })
   @Get()
-  getUsers(@Query('name') name?: string): User[] {
-    return this.usersService.findAll(name);
+  getUsers() {
+    return this.usersService.findAll();
   }
 
   @ApiOkResponse({ type: User, description: 'finds a specific user' })
   @ApiNotFoundResponse()
   @Get(':id')
-  getUserById(@Param('id', ParseIntPipe) id: number): User {
+  getUserById(@Param('id', ParseIntPipe) id: number) {
     const user = this.usersService.findOne(id);
     if (!user) {
       throw new NotFoundException();
@@ -47,7 +44,7 @@ export class UsersController {
   @ApiCreatedResponse({ type: User, description: 'create new user' })
   @ApiBadRequestResponse()
   @Post()
-  createUser(@Body() body: CreateUserDto): User {
-    return this.usersService.createUser(body);
+  createUser(@Body() body: CreateUserDto) {
+    return this.usersService.create(body);
   }
 }
