@@ -36,7 +36,7 @@ export class UsersController {
   @ApiNotFoundResponse()
   @Get(':id')
   getUserById(@Param('id', ParseIntPipe) id: number): User {
-    const user = this.usersService.findById(id);
+    const user = this.usersService.findOne(id);
     if (!user) {
       throw new NotFoundException();
     }

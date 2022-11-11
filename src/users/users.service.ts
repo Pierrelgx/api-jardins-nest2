@@ -13,12 +13,12 @@ export class UsersService {
     return this.users;
   }
 
-  findById(userId: number): User {
+  findOne(userId: number): User {
     return this.users.find((user) => user.id === userId);
   }
 
-  createUser(createUserDto: CreateUserDto): User {
-    const newUser = { id: Date.now(), ...createUserDto };
+  createUser(createUserDto: CreateUserDto): Promise<User> {
+    const newUser = { ...createUserDto };
 
     this.users.push(newUser);
 
