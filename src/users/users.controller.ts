@@ -1,10 +1,12 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
   NotFoundException,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
 } from '@nestjs/common';
 import {
@@ -46,5 +48,15 @@ export class UsersController {
   @Post()
   createUser(@Body() body: CreateUserDto) {
     return this.usersService.create(body);
+  }
+
+  @Patch(':id')
+  update(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.remove(id);
+  }
+
+  @Delete(':id')
+  remove(@Param('id', ParseIntPipe) id: number) {
+    return this.usersService.remove(id);
   }
 }
