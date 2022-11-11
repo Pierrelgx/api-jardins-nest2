@@ -1,9 +1,12 @@
 import { ApiProperty } from '@nestjs/swagger';
+import { Product } from 'src/products/entities/product.entity';
 import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinTable,
+  ManyToMany,
   ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -35,4 +38,10 @@ export class Order {
     onDelete: 'SET NULL',
   })
   user: User;
+
+  @ManyToMany(() => Product, (product) => product.orders, {
+    onDelete: 'SET NULL',
+  })
+  @JoinTable()
+  products: Product[];
 }
