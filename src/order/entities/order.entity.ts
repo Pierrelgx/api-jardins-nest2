@@ -1,34 +1,38 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Order } from 'src/order/entities/order.entity';
+import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  OneToMany,
+  ManyToOne,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
-export class User {
+export class Order {
   @PrimaryGeneratedColumn()
   @ApiProperty()
   id: number;
 
   @Column()
   @ApiProperty()
-  email: string;
+  code: number;
 
   @Column()
   @ApiProperty()
-  password: string;
+  amount: number;
 
+  @Column()
+  @ApiProperty()
   @CreateDateColumn({ type: 'timestamp' })
   createdAt!: Date;
 
   @UpdateDateColumn({ type: 'timestamp' })
   updatedAt!: Date;
 
-  @OneToMany(() => Order, (order) => order.user)
-  orders: Order[];
+  @ManyToOne(() => User, (user) => user.orders, {
+    onDelete: 'SET NULL',
+  })
+  user: User;
 }
