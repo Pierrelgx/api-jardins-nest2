@@ -7,7 +7,11 @@ import { dataSourceOptions } from '../db/data-source';
 import { ProductsModule } from './products/products.module';
 
 @Module({
-  imports: [TypeOrmModule.forRoot(dataSourceOptions), UsersModule, ProductsModule],
+  imports: [
+    TypeOrmModule.forRoot(dataSourceOptions),
+    UsersModule,
+    ProductsModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

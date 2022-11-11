@@ -3,7 +3,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn('uuid')
+  @PrimaryGeneratedColumn()
   @ApiProperty()
   id: number;
 
@@ -21,5 +21,5 @@ export class Product {
 
   @Column()
   @ApiProperty()
-  picture: URL;
+  picture: string;
 }

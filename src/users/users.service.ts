@@ -17,7 +17,7 @@ export class UsersService {
     return this.users.find((user) => user.id === userId);
   }
 
-  createUser(createUserDto: CreateUserDto): Promise<User> {
+  createUser(createUserDto: CreateUserDto): User {
     const newUser = { ...createUserDto };
 
     this.users.push(newUser);
