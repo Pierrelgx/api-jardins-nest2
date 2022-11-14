@@ -18,7 +18,6 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
-import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -31,7 +30,6 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @ApiOkResponse({ type: User, isArray: true, description: 'finds all users' })
-  @UseGuards(AuthenticatedGuard)
   @Get()
   getUsers() {
     return this.usersService.findAll();
@@ -56,13 +54,11 @@ export class UsersController {
     return this.usersService.create(body);
   }
 
-  @UseGuards(AuthenticatedGuard)
   @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateUserDto) {
     return this.usersService.update(id, body);
   }
 
-  @UseGuards(AuthenticatedGuard)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(id);

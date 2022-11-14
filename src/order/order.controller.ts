@@ -6,6 +6,7 @@ import {
   Patch,
   Param,
   Delete,
+  UseGuards,
 } from '@nestjs/common';
 import { OrderService } from './order.service';
 import { CreateOrderDto } from './dto/create-order.dto';
@@ -18,7 +19,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Order } from './entities/order.entity';
+import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 
+@UseGuards(AuthenticatedGuard)
 @ApiTags('orders')
 @Controller('order')
 export class OrderController {
