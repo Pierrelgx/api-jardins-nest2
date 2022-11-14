@@ -31,6 +31,7 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @ApiOkResponse({ type: User, isArray: true, description: 'finds all users' })
+  @UseGuards(AuthenticatedGuard)
   @Get()
   getUsers() {
     return this.usersService.findAll();
@@ -55,14 +56,14 @@ export class UsersController {
     return this.usersService.create(body);
   }
 
-  @Patch(':id')
   @UseGuards(AuthenticatedGuard)
+  @Patch(':id')
   update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateUserDto) {
     return this.usersService.update(id, body);
   }
 
-  @Delete(':id')
   @UseGuards(AuthenticatedGuard)
+  @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(id);
   }
