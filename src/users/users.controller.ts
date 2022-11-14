@@ -18,8 +18,10 @@ import {
   ApiOkResponse,
   ApiTags,
 } from '@nestjs/swagger';
+import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 import { LocalAuthGuard } from 'src/auth/local-auth.guard';
 import { CreateUserDto } from './dto/create-user.dto';
+import { UpdateUserDto } from './dto/update-user.dto';
 import { User } from './entities/user.entity';
 import { UsersService } from './users.service';
 
@@ -54,11 +56,13 @@ export class UsersController {
   }
 
   @Patch(':id')
-  update(@Param('id', ParseIntPipe) id: number) {
-    return this.usersService.remove(id);
+  @UseGuards(AuthenticatedGuard)
+  update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateUserDto) {
+    return this.usersService.update(id, body);
   }
 
   @Delete(':id')
+  @UseGuards(AuthenticatedGuard)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.usersService.remove(id);
   }
@@ -66,6 +70,6 @@ export class UsersController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   login(@Request() req): any {
-    return req.user;
+    return { msg: 'Logged in !' };
   }
 }
