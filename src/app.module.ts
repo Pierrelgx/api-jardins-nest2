@@ -5,7 +5,7 @@ import { AppService } from './app.service';
 import { UsersModule } from './users/users.module';
 import { dataSourceOptions } from '../db/data-source';
 import { ProductsModule } from './products/products.module';
-import { OrderModule } from './order/order.module';
+import { OrdersModule } from './orders/orders.module';
 import { AuthModule } from './auth/auth.module';
 import { ConfigModule } from '@nestjs/config';
 
@@ -15,7 +15,7 @@ import { ConfigModule } from '@nestjs/config';
     TypeOrmModule.forRoot(dataSourceOptions),
     UsersModule,
     ProductsModule,
-    OrderModule,
+    OrdersModule,
     AuthModule,
   ],
   controllers: [AppController],

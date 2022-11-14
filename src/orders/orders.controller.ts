@@ -8,7 +8,7 @@ import {
   Delete,
   UseGuards,
 } from '@nestjs/common';
-import { OrderService } from './order.service';
+import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import {
@@ -23,15 +23,15 @@ import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
 
 @UseGuards(AuthenticatedGuard)
 @ApiTags('orders')
-@Controller('order')
-export class OrderController {
-  constructor(private readonly orderService: OrderService) {}
+@Controller('orders')
+export class OrdersController {
+  constructor(private readonly ordersService: OrdersService) {}
 
   @ApiCreatedResponse({ type: Order, description: 'create new order' })
   @ApiBadRequestResponse()
   @Post()
   create(@Body() createOrderDto: CreateOrderDto) {
-    return this.orderService.create(createOrderDto);
+    return this.ordersService.create(createOrderDto);
   }
 
   @ApiOkResponse({
@@ -41,23 +41,23 @@ export class OrderController {
   })
   @Get()
   findAll() {
-    return this.orderService.findAll();
+    return this.ordersService.findAll();
   }
 
   @ApiOkResponse({ type: Order, description: 'find a specific order' })
   @ApiNotFoundResponse()
   @Get(':id')
   findOne(@Param('id') id: string) {
-    return this.orderService.findOne(+id);
+    return this.ordersService.findOne(+id);
   }
 
   @Patch(':id')
   update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
-    return this.orderService.update(+id, updateOrderDto);
+    return this.ordersService.update(+id, updateOrderDto);
   }
 
   @Delete(':id')
   remove(@Param('id') id: string) {
-    return this.orderService.remove(+id);
+    return this.ordersService.remove(+id);
   }
 }
