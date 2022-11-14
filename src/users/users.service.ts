@@ -19,6 +19,10 @@ export class UsersService {
     return this.usersRepository.findOneBy({ id });
   }
 
+  findOneByEmail(email: string) {
+    return this.usersRepository.findOneBy({ email });
+  }
+
   create(createUserDto: CreateUserDto) {
     const newUser = this.usersRepository.create(createUserDto);
 
