@@ -1,6 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Order } from 'src/orders/entities/order.entity';
 import {
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -8,6 +9,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
+import * as bcrypt from 'bcrypt';
 
 @Entity()
 export class User {
@@ -34,4 +36,9 @@ export class User {
   @ApiProperty()
   @OneToMany(() => Order, (order) => order.user)
   orders: Order[];
+
+  @BeforeInsert()
+  async hashPassword() {
+    this.password = await bcrypt.hash(this.password, Number(10));
+  }
 }
