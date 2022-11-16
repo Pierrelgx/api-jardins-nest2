@@ -51,13 +51,7 @@ export class UsersController {
   @ApiCreatedResponse({ type: User, description: 'create new user' })
   @ApiBadRequestResponse()
   @Post()
-  async createUser(@Body() body: CreateUserDto) {
-    const user = await this.usersService.findOneByEmail(body.email);
-    if (user) {
-      throw new ForbiddenException({
-        msg: 'User with this email already exists',
-      });
-    }
+  createUser(@Body() body: CreateUserDto) {
     return this.usersService.create(body);
   }
 
