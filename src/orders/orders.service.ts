@@ -11,8 +11,9 @@ export class OrdersService {
     @InjectRepository(Order) private ordersRepository: Repository<Order>,
   ) {}
 
-  create(createOrderDto: CreateOrderDto) {
-    const newOrder = this.ordersRepository.create(createOrderDto);
+  create(createOrderDto: CreateOrderDto, code: number) {
+    code = Math.floor(1000 + Math.random() * 9000);
+    const newOrder = this.ordersRepository.create({ code, ...createOrderDto });
 
     return this.ordersRepository.save(newOrder);
   }
