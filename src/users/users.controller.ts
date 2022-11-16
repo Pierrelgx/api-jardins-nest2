@@ -69,4 +69,14 @@ export class UsersController {
   login(@Request() req): any {
     return req.user;
   }
+
+  @Post('logout')
+  logout(@Request() req) {
+    req.logout(function (err: Error) {
+      if (err) {
+        return err.message;
+      }
+    });
+    return { msg: 'Logged out' };
+  }
 }
