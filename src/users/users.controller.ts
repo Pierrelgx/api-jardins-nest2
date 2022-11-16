@@ -2,6 +2,7 @@ import {
   Body,
   Controller,
   Delete,
+  ForbiddenException,
   Get,
   NotFoundException,
   Param,
@@ -50,7 +51,13 @@ export class UsersController {
   @ApiCreatedResponse({ type: User, description: 'create new user' })
   @ApiBadRequestResponse()
   @Post()
-  createUser(@Body() body: CreateUserDto) {
+  async createUser(@Body() body: CreateUserDto) {
+    const user = await this.usersService.findOneByEmail(body.email);
+    if (user) {
+      throw new ForbiddenException({
+        msg: 'User with this email already exists',
+      });
+    }
     return this.usersService.create(body);
   }
 
@@ -67,6 +74,6 @@ export class UsersController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   login(@Request() req): any {
-    return { msg: 'Logged in !' };
+    return req.user;
   }
 }
