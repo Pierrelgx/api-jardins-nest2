@@ -10,6 +10,7 @@ import { AuthModule } from './authentication/auth.module';
 import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AdminGuard } from './authorization/admin.guard';
+import { OwnerIdGuard } from './authorization/ownerId.guard';
 
 @Module({
   imports: [
@@ -26,6 +27,10 @@ import { AdminGuard } from './authorization/admin.guard';
     {
       provide: APP_GUARD,
       useClass: AdminGuard,
+    },
+    {
+      provide: APP_GUARD,
+      useClass: OwnerIdGuard,
     },
   ],
 })
