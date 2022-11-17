@@ -6,8 +6,10 @@ import { UsersModule } from './users/users.module';
 import { dataSourceOptions } from '../db/data-source';
 import { ProductsModule } from './products/products.module';
 import { OrdersModule } from './orders/orders.module';
-import { AuthModule } from './auth/auth.module';
+import { AuthModule } from './authentication/auth.module';
 import { ConfigModule } from '@nestjs/config';
+import { APP_GUARD } from '@nestjs/core';
+import { AdminGuard } from './authorization/admin.guard';
 
 @Module({
   imports: [
@@ -19,6 +21,12 @@ import { ConfigModule } from '@nestjs/config';
     AuthModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [
+    AppService,
+    {
+      provide: APP_GUARD,
+      useClass: AdminGuard,
+    },
+  ],
 })
 export class AppModule {}

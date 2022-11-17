@@ -20,7 +20,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Order } from './entities/order.entity';
-import { AuthenticatedGuard } from 'src/auth/authenticated.guard';
+import { AuthenticatedGuard } from 'src/authentication/authenticated.guard';
 
 @UseGuards(AuthenticatedGuard)
 @ApiTags('orders')

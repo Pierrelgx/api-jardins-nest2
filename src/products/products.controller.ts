@@ -20,6 +20,7 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Product } from './entities/product.entity';
+import { Admin } from '../authorization/admin.decorator';
 
 @ApiTags('products')
 @Controller('products')
@@ -29,6 +30,7 @@ export class ProductsController {
   @ApiCreatedResponse({ type: Product, description: 'create new product' })
   @ApiBadRequestResponse()
   @Post()
+  @Admin(true)
   create(@Body() createProductDto: CreateProductDto) {
     return this.productsService.create(createProductDto);
   }
@@ -55,6 +57,7 @@ export class ProductsController {
   }
 
   @Patch(':id')
+  @Admin(true)
   update(
     @Param('id', ParseIntPipe) id: number,
     @Body() updateProductDto: UpdateProductDto,
@@ -63,6 +66,7 @@ export class ProductsController {
   }
 
   @Delete(':id')
+  @Admin(true)
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.productsService.remove(id);
   }
