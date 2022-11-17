@@ -25,6 +25,10 @@ export class User {
   @ApiProperty()
   password: string;
 
+  @Column({ default: false })
+  @ApiProperty()
+  isAdmin: boolean;
+
   @ApiProperty()
   @CreateDateColumn({ type: 'timestamp' })
   createdAt!: Date;
