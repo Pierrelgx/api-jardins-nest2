@@ -14,4 +14,7 @@ export class CreateProductDto {
   @ApiProperty()
   @IsUrl()
   picture: string;
+
+  @ApiProperty()
+  available: boolean;
 }

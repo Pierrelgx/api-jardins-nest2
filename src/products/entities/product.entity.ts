@@ -31,6 +31,10 @@ export class Product {
   @ApiProperty()
   picture: string;
 
+  @Column({ default: true })
+  @ApiProperty()
+  available: boolean;
+
   @ApiProperty()
   @CreateDateColumn({ type: 'timestamp' })
   createdAt!: Date;
