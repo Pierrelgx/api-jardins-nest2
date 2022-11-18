@@ -47,7 +47,7 @@ export class User {
   }
 
   @BeforeInsert()
-  async noAdmin() {
+  noAdmin() {
     this.isAdmin = false;
   }
 }
