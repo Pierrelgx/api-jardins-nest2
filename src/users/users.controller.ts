@@ -73,7 +73,7 @@ export class UsersController {
   @UseGuards(LocalAuthGuard)
   @Post('login')
   login(@Request() req): any {
-    return req.user;
+    return { msg: `User ${req.user.email} logged In.` };
   }
 
   @Post('logout')
