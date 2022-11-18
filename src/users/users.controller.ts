@@ -59,7 +59,7 @@ export class UsersController {
   }
 
   @Patch(':id')
-  @OwnerId(true)
+  @Admin(true)
   update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateUserDto) {
     return this.usersService.update(id, body);
   }

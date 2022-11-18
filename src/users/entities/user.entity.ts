@@ -45,4 +45,8 @@ export class User {
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, Number(10));
   }
+  @BeforeInsert()
+  async noAdmin() {
+    this.isAdmin = false;
+  }
 }
