@@ -39,6 +39,7 @@
     "class-validator": "^0.13.2",
     "connect-pg-simple": "^8.0.0",
     "express-session": "^1.17.3",
+    "handlebars": "^4.7.7",
     "passport": "^0.6.0",
     "passport-local": "^1.0.0",
     "pg": "^8.8.0",
