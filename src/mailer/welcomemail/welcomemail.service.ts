@@ -15,7 +15,7 @@ export class WelcomeMailService {
       subject: 'Bienvenue dans les Jardins de Lalandette !',
       from: this.configService.get('SENDGRID_SENDER'),
       text: 'Merci de nous avoir rejoints !',
-      html: '<h1>Merci de nous avoir rejoints !</h1>',
+      html: '<h1>Merci de nous avoir rejoints !</h1><p> Bienvenue, {{ email }} !</p>',
     };
 
     return await this.sendgridService.send(mail);
