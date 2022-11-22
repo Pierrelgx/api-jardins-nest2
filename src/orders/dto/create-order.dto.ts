@@ -11,6 +11,12 @@ export class CreateOrderDto {
   amount: number;
 
   @ApiProperty()
+  withdrawDate: string;
+
+  @ApiProperty()
+  withdrawMorning: boolean;
+
+  @ApiProperty()
   userId: number;
 
   @ApiProperty()

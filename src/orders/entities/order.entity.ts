@@ -26,12 +26,20 @@ export class Order {
   @ApiProperty()
   amount: number;
 
+  @Column({ type: 'date' })
   @ApiProperty()
-  @CreateDateColumn({ type: 'timestamp' })
+  withdrawDate: string;
+
+  @Column({ default: true })
+  @ApiProperty()
+  withdrawMorning: boolean;
+
+  @ApiProperty()
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date;
 
   @ApiProperty()
-  @UpdateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt!: Date;
 
   @ManyToOne(() => User, (user) => user.orders, {
