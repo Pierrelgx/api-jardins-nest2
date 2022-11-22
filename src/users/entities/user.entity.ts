@@ -30,11 +30,11 @@ export class User {
   isAdmin: boolean;
 
   @ApiProperty()
-  @CreateDateColumn({ type: 'timestamp' })
+  @CreateDateColumn({ type: 'timestamptz' })
   createdAt!: Date;
 
   @ApiProperty()
-  @UpdateDateColumn({ type: 'timestamp' })
+  @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt!: Date;
 
   @ApiProperty()
