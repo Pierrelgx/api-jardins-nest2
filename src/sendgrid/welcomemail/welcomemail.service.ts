@@ -1,7 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { SendgridService } from '../sendgrid.service';
-import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class WelcomeMailService {
