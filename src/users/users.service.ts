@@ -1,6 +1,6 @@
 import { ForbiddenException, Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { WelcomeMailService } from 'src/mailer/welcomemail/welcomemail.service';
+import { WelcomeService } from 'src/mailer/welcome/welcome.service';
 import { Repository } from 'typeorm';
 import { CreateUserDto } from './dto/create-user.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
@@ -10,7 +10,7 @@ import { User } from './entities/user.entity';
 export class UsersService {
   constructor(
     @InjectRepository(User) private usersRepository: Repository<User>,
-    private welcomeMail: WelcomeMailService,
+    private welcomeService: WelcomeService,
   ) {}
 
   findAll() {
@@ -43,7 +43,7 @@ export class UsersService {
     }
     const newUser = this.usersRepository.create(createUserDto);
 
-    await this.welcomeMail.sendWelcomeEmail(newUser.email);
+    await this.welcomeService.sendWelcome(newUser.email);
 
     return this.usersRepository.save(newUser);
   }

@@ -3,16 +3,17 @@ import { ConfigService } from '@nestjs/config';
 import { SendgridService } from '../sendgrid.service';
 import * as hbs from 'handlebars';
 import * as fs from 'fs';
+
 @Injectable()
-export class WelcomeMailService {
+export class WelcomeService {
   constructor(
     private readonly sendgridService: SendgridService,
     private configService: ConfigService,
   ) {}
 
-  public async sendWelcomeEmail(email: string) {
+  public async sendWelcome(email: string) {
     const emailTemplate = fs
-      .readFileSync('./dist/src/mailer/welcomemail/welcomemail.hbs')
+      .readFileSync('./dist/src/mailer/welcome/welcome.hbs')
       .toString();
 
     const template = hbs.compile(emailTemplate);
