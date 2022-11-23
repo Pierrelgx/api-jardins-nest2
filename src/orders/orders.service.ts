@@ -25,7 +25,7 @@ export class OrdersService {
 
     const confirmOrder = await this.ordersRepository.save(newOrder);
 
-    await this.orderConfirm.sendOrderConfirm(code, user.email, confirmOrder);
+    await this.orderConfirm.sendOrderConfirm(user.email, confirmOrder);
 
     return confirmOrder;
   }

@@ -12,7 +12,7 @@ export class OrderConfirmService {
     private configService: ConfigService,
   ) {}
 
-  public async sendOrderConfirm(code: number, email: string, order: Order) {
+  public async sendOrderConfirm(email: string, order: Order) {
     const emailTemplate = fs
       .readFileSync('./dist/src/mailer/orderconfirm/orderconfirm.hbs')
       .toString();
@@ -33,7 +33,7 @@ export class OrderConfirmService {
       amount: amount,
       withdraw: withdraw,
       time: time,
-      code: code,
+      code: order.code,
       url: `https://www.lesjardinsdelalandette.com/orders/${order.id}`,
       mainImage:
         'https://www.shutterstock.com/image-photo/assortment-fresh-fruits-vegetables-600w-553662235.jpg',
