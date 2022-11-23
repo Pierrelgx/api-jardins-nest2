@@ -1,5 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { OrderConfirmService } from 'src/mailer/orderconfirm/orderconfirm.service';
+import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
@@ -9,13 +11,28 @@ import { Order } from './entities/order.entity';
 export class OrdersService {
   constructor(
     @InjectRepository(Order) private ordersRepository: Repository<Order>,
+    private orderConfirm: OrderConfirmService,
   ) {}
 
-  create(createOrderDto: CreateOrderDto, code: number) {
+  async create(user: User, createOrderDto: CreateOrderDto, code: number) {
     code = Math.floor(1000 + Math.random() * 9000);
-    const newOrder = this.ordersRepository.create({ code, ...createOrderDto });
 
-    return this.ordersRepository.save(newOrder);
+    const newOrder = this.ordersRepository.create({
+      user,
+      code,
+      ...createOrderDto,
+    });
+
+    const confirmOrder = await this.ordersRepository.save(newOrder);
+
+    await this.orderConfirm.sendOrderConfirm(
+      code,
+      createOrderDto.withdrawDate,
+      user.email,
+      confirmOrder.id,
+    );
+
+    return confirmOrder;
   }
 
   findAll() {
