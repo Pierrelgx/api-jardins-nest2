@@ -12,20 +12,22 @@ export class WelcomeMailService {
 
   public async sendWelcomeEmail(email: string) {
     const emailTemplate = fs
-      .readFileSync('./src/mailer/welcomemail/welcomemail.hbs')
+      .readFileSync('./dist/src/mailer/welcomemail/welcomemail.hbs')
       .toString();
 
     const template = hbs.compile(emailTemplate);
 
     const messageBody = template({
       email: email,
+      url: 'https://www.lesjardinsdelalandette.com',
+      mainImage:
+        'https://www.shutterstock.com/image-photo/assortment-fresh-fruits-vegetables-600w-553662235.jpg',
     });
 
     const mail = {
       to: email,
       subject: 'Bienvenue dans les Jardins de Lalandette !',
       from: this.configService.get('SENDGRID_SENDER'),
-      text: 'Merci de nous avoir rejoints !',
       html: messageBody,
     };
 
