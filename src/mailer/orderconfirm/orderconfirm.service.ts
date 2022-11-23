@@ -20,8 +20,10 @@ export class OrderConfirmService {
     const template = hbs.compile(emailTemplate);
 
     const orderDate = new Date().toLocaleDateString('fr');
-    const withdraw = order.withdrawDate.split('-').reverse().join('-');
-    const time = order.withdrawMorning ? 'de 10h à 14h' : 'de 14h à 19h';
+    const withdrawDate = order.withdrawDate.split('-').reverse().join('-');
+    const withdrawTime = order.withdrawMorning
+      ? 'de 10h à 14h'
+      : 'de 14h à 19h';
     const amount = (order.amount / 100).toLocaleString('fr', {
       style: 'currency',
       currency: 'EUR',
@@ -31,8 +33,8 @@ export class OrderConfirmService {
       email: email,
       orderDate: orderDate,
       amount: amount,
-      withdraw: withdraw,
-      time: time,
+      withdrawDate: withdrawDate,
+      withdrawTime: withdrawTime,
       code: order.code,
       url: `https://www.lesjardinsdelalandette.com/orders/${order.id}`,
       mainImage:
