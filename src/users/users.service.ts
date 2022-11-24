@@ -21,7 +21,7 @@ export class UsersService {
     });
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.usersRepository.findOne({
       where: { id: id },
       relations: {
@@ -48,21 +48,15 @@ export class UsersService {
     return this.usersRepository.save(newUser);
   }
 
-  async update(id: number, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto) {
     const user = await this.findOne(id);
 
     return this.usersRepository.save({ ...user, ...updateUserDto });
-
-    // alternative but only returns the query result, not the updated user
-    // return this.usersRepository.update(id, updateUserDto)
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const user = await this.findOne(id);
 
     return this.usersRepository.remove(user);
-
-    // alternative but only returns the query result, not the deleted user
-    // return this.usersRepository.delete(id)
   }
 }

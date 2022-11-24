@@ -21,16 +21,16 @@ export class ProductsService {
     return this.productsRepository.find();
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.productsRepository.findOneBy({ id });
   }
 
-  async update(id: number, updateProductDto: UpdateProductDto) {
+  async update(id: string, updateProductDto: UpdateProductDto) {
     const product = await this.findOne(id);
     return this.productsRepository.save({ ...product, ...updateProductDto });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const product = await this.findOne(id);
 
     return this.productsRepository.remove(product);

@@ -18,7 +18,7 @@ export class OrdersService {
   ) {}
 
   async create(
-    userId: number,
+    userId: string,
     code: number,
     createOrderDto: CreateOrderDto,
   ): Promise<any> {
@@ -58,12 +58,12 @@ export class OrdersService {
     });
   }
 
-  async findByUser(userId: number) {
+  async findByUser(userId: string) {
     const orders = await this.ordersRepository.find({ relations: ['userId'] });
     return orders.filter((order) => order.user?.id === userId);
   }
 
-  findOne(id: number) {
+  findOne(id: string) {
     return this.ordersRepository.findOne({
       where: { id: id },
       relations: {
@@ -72,12 +72,12 @@ export class OrdersService {
     });
   }
 
-  async update(id: number, updateOrderDto: UpdateOrderDto) {
+  async update(id: string, updateOrderDto: UpdateOrderDto) {
     const order = await this.findOne(id);
     return this.ordersRepository.save({ ...order, ...updateOrderDto });
   }
 
-  async remove(id: number) {
+  async remove(id: string) {
     const order = await this.findOne(id);
 
     return this.ordersRepository.remove(order);

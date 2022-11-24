@@ -5,7 +5,6 @@ import {
   Get,
   NotFoundException,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
   Request,
@@ -42,7 +41,7 @@ export class UsersController {
   @ApiNotFoundResponse()
   @Get(':id')
   @OwnerId(true)
-  getUserById(@Param('id', ParseIntPipe) id: number) {
+  getUserById(@Param('id') id: string) {
     const user = this.usersService.findOne(id);
     if (!user) {
       throw new NotFoundException();
@@ -60,13 +59,13 @@ export class UsersController {
 
   @Patch(':id')
   @Admin(true)
-  update(@Param('id', ParseIntPipe) id: number, @Body() body: UpdateUserDto) {
+  update(@Param('id') id: string, @Body() body: UpdateUserDto) {
     return this.usersService.update(id, body);
   }
 
   @Delete(':id')
   @OwnerId(true)
-  remove(@Param('id', ParseIntPipe) id: number) {
+  remove(@Param('id') id: string) {
     return this.usersService.remove(id);
   }
 

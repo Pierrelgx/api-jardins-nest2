@@ -16,9 +16,9 @@ export class CartsService {
   ) {}
 
   async addToCart(
-    productId: number,
+    productId: string,
     quantity: number,
-    userId: number,
+    userId: string,
   ): Promise<any> {
     const cartItems = await this.cartsRepository.find({
       relations: ['product', 'user'],
@@ -51,7 +51,7 @@ export class CartsService {
     return null;
   }
 
-  async getItemsInCart(userId: number): Promise<Cart[]> {
+  async getItemsInCart(userId: string): Promise<Cart[]> {
     const userCart = await this.cartsRepository.find({
       relations: ['product', 'user'],
     });
