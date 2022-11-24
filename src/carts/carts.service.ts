@@ -35,10 +35,9 @@ export class CartsService {
         const newItem = this.cartsRepository.create({
           total: product.price * quantity,
           quantity,
+          user,
+          product,
         });
-        newItem.user = user;
-        newItem.product = product;
-        this.cartsRepository.save(newItem);
 
         return await this.cartsRepository.save(newItem);
       } else {
