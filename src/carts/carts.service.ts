@@ -1,0 +1,63 @@
+import { Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { ProductsService } from 'src/products/products.service';
+import { User } from 'src/users/entities/user.entity';
+import { Repository } from 'typeorm';
+import { Cart } from './entities/cart.entity';
+
+@Injectable()
+export class CartsService {
+  constructor(
+    @InjectRepository(Cart)
+    private cartsRepository: Repository<Cart>,
+    @InjectRepository(User)
+    private usersRepository: Repository<User>,
+    private productsService: ProductsService,
+  ) {}
+
+  async addToCart(
+    productId: number,
+    quantity: number,
+    userId: number,
+  ): Promise<any> {
+    const cartItems = await this.cartsRepository.find({
+      relations: ['product', 'user'],
+    });
+    const product = await this.productsService.findOne(productId);
+    const user = await this.usersRepository.findOneBy({ id: userId });
+
+    if (product) {
+      const cart = cartItems.filter(
+        (item) => item.product.id === productId && item.user.id === userId,
+      );
+
+      if (cart.length < 1) {
+        const newItem = this.cartsRepository.create({
+          total: product.price * quantity,
+          quantity,
+        });
+        newItem.user = user;
+        newItem.product = product;
+        this.cartsRepository.save(newItem);
+
+        return await this.cartsRepository.save(newItem);
+      } else {
+        const quantity = (cart[0].quantity += 1);
+        const total = cart[0].total * quantity;
+
+        return await this.cartsRepository.update(cart[0].id, {
+          quantity,
+          total,
+        });
+      }
+    }
+    return null;
+  }
+
+  async getItemsInCart(userId: number): Promise<Cart[]> {
+    const userCart = await this.cartsRepository.find({
+      relations: ['product', 'user'],
+    });
+    return userCart.filter((item) => item.user.id === userId);
+  }
+}

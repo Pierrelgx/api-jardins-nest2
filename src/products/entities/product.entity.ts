@@ -1,17 +1,17 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Order } from 'src/orders/entities/order.entity';
+import { Cart } from 'src/carts/entities/cart.entity';
 import {
   Column,
   CreateDateColumn,
   Entity,
-  ManyToMany,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
 export class Product {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @ApiProperty()
   id: number;
 
@@ -44,6 +44,6 @@ export class Product {
   updatedAt!: Date;
 
   @ApiProperty()
-  @ManyToMany(() => Order, (order) => order.products)
-  orders: Order[];
+  @OneToMany(() => Cart, (cart) => cart.id)
+  cart: Cart[];
 }

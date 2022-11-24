@@ -10,10 +10,11 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
+import { Cart } from 'src/carts/entities/cart.entity';
 
 @Entity()
 export class User {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @ApiProperty()
   id: number;
 
@@ -38,16 +39,15 @@ export class User {
   updatedAt!: Date;
 
   @ApiProperty()
-  @OneToMany(() => Order, (order) => order.user)
+  @OneToMany(() => Cart, (cart) => cart.id)
+  carts: Cart[];
+
+  @ApiProperty()
+  @OneToMany(() => Order, (order) => order.id)
   orders: Order[];
 
   @BeforeInsert()
   async hashPassword() {
     this.password = await bcrypt.hash(this.password, Number(10));
-  }
-
-  @BeforeInsert()
-  noAdmin() {
-    this.isAdmin = false;
   }
 }

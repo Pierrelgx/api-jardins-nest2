@@ -6,15 +6,15 @@ import {
   CreateDateColumn,
   Entity,
   JoinTable,
-  ManyToMany,
   ManyToOne,
+  OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
 
 @Entity()
 export class Order {
-  @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn('uuid')
   @ApiProperty()
   id: number;
 
@@ -42,13 +42,13 @@ export class Order {
   @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt!: Date;
 
-  @ManyToOne(() => User, (user) => user.orders, {
+  @ManyToOne(() => User, (user) => user.id, {
     onDelete: 'SET NULL',
   })
   user: User;
 
   @ApiProperty()
-  @ManyToMany(() => Product, (product) => product.orders)
+  @OneToMany(() => Product, (product) => product.id)
   @JoinTable()
   products: Product[];
 }

@@ -32,8 +32,8 @@ export class OrdersController {
   @ApiCreatedResponse({ type: Order, description: 'create new order' })
   @ApiBadRequestResponse()
   @Post()
-  create(@Request() req, @Body() createOrderDto: CreateOrderDto, code: number) {
-    return this.ordersService.create(req.user, createOrderDto, code);
+  create(@Request() req, code: number, @Body() createOrderDto: CreateOrderDto) {
+    return this.ordersService.create(req.user.id, code, createOrderDto);
   }
 
   @ApiOkResponse({

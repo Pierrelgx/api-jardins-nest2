@@ -1,5 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { CartsService } from 'src/carts/carts.service';
 import { OrderConfirmService } from 'src/mailer/orderconfirm/orderconfirm.service';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -11,17 +12,52 @@ import { Order } from './entities/order.entity';
 export class OrdersService {
   constructor(
     @InjectRepository(Order) private ordersRepository: Repository<Order>,
+    @InjectRepository(User) private usersRepository: Repository<User>,
+    private cartsService: CartsService,
     private orderConfirm: OrderConfirmService,
   ) {}
 
-  async create(user: User, createOrderDto: CreateOrderDto, code: number) {
+  // async create(user: User, createOrderDto: CreateOrderDto, code: number) {
+  //   code = Math.floor(1000 + Math.random() * 9000);
+
+  //   const newOrder = this.ordersRepository.create({
+  //     user,
+  //     code,
+  //     ...createOrderDto,
+  //   });
+
+  //   const confirmOrder = await this.ordersRepository.save(newOrder);
+
+  //   await this.orderConfirm.sendOrderConfirm(user.email, confirmOrder);
+
+  //   return confirmOrder;
+  // }
+
+  async create(
+    userId: number,
+    code: number,
+    createOrderDto: CreateOrderDto,
+  ): Promise<any> {
+    const cartItems = await this.cartsService.getItemsInCart(userId);
+
+    const amount = cartItems
+      .map((item) => item.total)
+      .reduce((acc, next) => acc + next, 0);
+
+    const user = await this.usersRepository.findOneBy({ id: userId });
+
+    const cart = cartItems.map((item) => item.product);
+
     code = Math.floor(1000 + Math.random() * 9000);
 
     const newOrder = this.ordersRepository.create({
       user,
       code,
+      amount,
       ...createOrderDto,
     });
+
+    newOrder.products = cart;
 
     const confirmOrder = await this.ordersRepository.save(newOrder);
 
@@ -36,6 +72,11 @@ export class OrdersService {
         products: true,
       },
     });
+  }
+
+  async findByUser(userId: number) {
+    const orders = await this.ordersRepository.find({ relations: ['userId'] });
+    return orders.filter((order) => order.user?.id === userId);
   }
 
   findOne(id: number) {

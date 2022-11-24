@@ -11,6 +11,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AdminGuard } from './authorization/admin.guard';
 import { OwnerIdGuard } from './authorization/ownerId.guard';
+import { CartsModule } from './carts/carts.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { OwnerIdGuard } from './authorization/ownerId.guard';
     UsersModule,
     ProductsModule,
     OrdersModule,
+    CartsModule,
     AuthModule,
   ],
   controllers: [AppController],
