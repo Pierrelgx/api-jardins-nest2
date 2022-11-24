@@ -1,6 +1,5 @@
 import { Body, Controller, Get, Post, Request } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { OwnerId } from 'src/authorization/ownerId.decorator';
 import { CartsService } from './carts.service';
 import { Cart } from './entities/cart.entity';
 
@@ -16,7 +15,6 @@ export class CartsController {
   }
 
   @Get()
-  @OwnerId(true)
   async GetItemsInCart(@Request() req): Promise<Cart[]> {
     return await this.cartsService.getItemsInCart(req.user.id);
   }

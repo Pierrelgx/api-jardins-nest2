@@ -5,7 +5,6 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -40,7 +39,6 @@ export class User {
 
   @ApiProperty()
   @OneToMany(() => Cart, (cart) => cart.id)
-  @JoinColumn()
   carts: Cart[];
 
   @ApiProperty()

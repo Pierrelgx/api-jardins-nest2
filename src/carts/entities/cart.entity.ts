@@ -4,6 +4,7 @@ import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
+  JoinColumn,
   JoinTable,
   ManyToOne,
   PrimaryGeneratedColumn,
@@ -24,11 +25,11 @@ export class Cart {
 
   @ApiProperty()
   @ManyToOne(() => Product, (order) => order.id)
-  @JoinTable()
+  @JoinColumn()
   product: Product;
 
   @ApiProperty()
   @ManyToOne(() => User, (user) => user.id)
-  @JoinTable()
+  @JoinColumn()
   user: User;
 }
