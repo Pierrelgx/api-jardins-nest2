@@ -5,7 +5,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
-  JoinTable,
+  JoinColumn,
   ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
@@ -45,10 +45,10 @@ export class Order {
   @ManyToOne(() => User, (user) => user.id, {
     onDelete: 'SET NULL',
   })
+  @JoinColumn()
   user: User;
 
   @ApiProperty()
   @OneToMany(() => Product, (product) => product.id)
-  @JoinTable()
   products: Product[];
 }

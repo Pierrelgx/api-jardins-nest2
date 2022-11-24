@@ -42,7 +42,8 @@ export class CartsService {
 
         return await this.cartsRepository.save(newItem);
       } else {
-        return await this.cartsRepository.update(cart[0].id, {
+        return await this.cartsRepository.save({
+          ...cart[0],
           quantity,
           total: product.price * quantity,
         });
