@@ -1,8 +1,10 @@
-import { Body, Controller, Get, Post, Request } from '@nestjs/common';
+import { Body, Controller, Get, Post, Request, UseGuards } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
+import { AuthenticatedGuard } from 'src/authentication/authenticated.guard';
 import { CartsService } from './carts.service';
 import { Cart } from './entities/cart.entity';
 
+@UseGuards(AuthenticatedGuard)
 @Controller('carts')
 @ApiTags('carts')
 export class CartsController {
