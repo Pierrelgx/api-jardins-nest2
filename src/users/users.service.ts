@@ -43,7 +43,7 @@ export class UsersService {
     }
     const newUser = this.usersRepository.create(createUserDto);
 
-    // await this.welcomeService.sendWelcome(newUser.email);
+    await this.welcomeService.sendWelcome(newUser.email);
 
     return this.usersRepository.save(newUser);
   }
