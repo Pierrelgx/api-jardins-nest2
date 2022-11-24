@@ -42,12 +42,9 @@ export class CartsService {
 
         return await this.cartsRepository.save(newItem);
       } else {
-        const quantity = (cart[0].quantity += 1);
-        const total = cart[0].total * quantity;
-
         return await this.cartsRepository.update(cart[0].id, {
           quantity,
-          total,
+          total: product.price * quantity,
         });
       }
     }

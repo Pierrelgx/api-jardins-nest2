@@ -15,8 +15,7 @@ import { Cart } from 'src/carts/entities/cart.entity';
 @Entity()
 export class User {
   @PrimaryGeneratedColumn('uuid')
-  @ApiProperty()
-  id: number;
+  id: string;
 
   @Column({ unique: true })
   @ApiProperty()

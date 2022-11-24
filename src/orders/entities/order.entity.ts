@@ -16,7 +16,7 @@ import {
 export class Order {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty()
-  id: number;
+  id: string;
 
   @Column()
   @ApiProperty()

@@ -17,22 +17,6 @@ export class OrdersService {
     private orderConfirm: OrderConfirmService,
   ) {}
 
-  // async create(user: User, createOrderDto: CreateOrderDto, code: number) {
-  //   code = Math.floor(1000 + Math.random() * 9000);
-
-  //   const newOrder = this.ordersRepository.create({
-  //     user,
-  //     code,
-  //     ...createOrderDto,
-  //   });
-
-  //   const confirmOrder = await this.ordersRepository.save(newOrder);
-
-  //   await this.orderConfirm.sendOrderConfirm(user.email, confirmOrder);
-
-  //   return confirmOrder;
-  // }
-
   async create(
     userId: number,
     code: number,

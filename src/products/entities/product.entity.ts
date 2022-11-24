@@ -13,7 +13,7 @@ import {
 export class Product {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty()
-  id: number;
+  id: string;
 
   @Column()
   @ApiProperty()
