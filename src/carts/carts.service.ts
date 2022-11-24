@@ -41,10 +41,11 @@ export class CartsService {
 
         return await this.cartsRepository.save(newItem);
       } else {
-        return await this.cartsRepository.update(cart[0].id, {
+        await this.cartsRepository.update(cart[0].id, {
           quantity,
           total: product.price * quantity,
         });
+        return this.cartsRepository.findOneBy({ id: cart[0].id });
       }
     }
     return null;
