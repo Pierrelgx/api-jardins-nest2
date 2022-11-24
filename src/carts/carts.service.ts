@@ -41,7 +41,12 @@ export class CartsService {
 
         return await this.cartsRepository.save(newItem);
       } else {
-        return await this.cartsRepository.update(cart[0].id, {
+        const updatedCart = await this.cartsRepository.findOneBy({
+          id: cart[0].id,
+        });
+
+        return await this.cartsRepository.save({
+          ...updatedCart,
           quantity,
           total: product.price * quantity,
         });
