@@ -57,4 +57,10 @@ export class CartsService {
     });
     return userCart.filter((item) => item.user.id === userId);
   }
+
+  async remove(id: string) {
+    const cart = await this.cartsRepository.findOneBy({ id });
+
+    return this.cartsRepository.remove(cart);
+  }
 }

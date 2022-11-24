@@ -47,6 +47,8 @@ export class OrdersService {
 
     await this.orderConfirm.sendOrderConfirm(user.email, confirmOrder);
 
+    cartItems.map((cart) => this.cartsService.remove(cart.id));
+
     return confirmOrder;
   }
 
