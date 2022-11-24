@@ -4,7 +4,7 @@ import { User } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
-  JoinColumn,
+  JoinTable,
   ManyToOne,
   PrimaryGeneratedColumn,
 } from 'typeorm';
@@ -24,11 +24,11 @@ export class Cart {
 
   @ApiProperty()
   @ManyToOne(() => Product, (order) => order.id)
-  @JoinColumn()
+  @JoinTable()
   product: Product;
 
   @ApiProperty()
   @ManyToOne(() => User, (user) => user.id)
-  @JoinColumn()
+  @JoinTable()
   user: User;
 }
