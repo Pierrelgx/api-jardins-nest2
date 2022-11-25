@@ -19,7 +19,8 @@ export class OrderConfirmService {
 
     const template = hbs.compile(emailTemplate);
 
-    const orderDate = new Date().toLocaleDateString('fr');
+    const orderDate = order.createdAt.toLocaleDateString('fr');
+    const orderTime = order.createdAt.getHours() + ':' + order.createdAt.getMinutes();
     const withdrawDate = order.withdrawDate.split('-').reverse().join('-');
     const withdrawTime = order.withdrawMorning
       ? 'de 10h à 14h'
@@ -32,6 +33,7 @@ export class OrderConfirmService {
     const messageBody = template({
       email: email,
       orderDate: orderDate,
+      orderTime: orderTime,
       amount: amount,
       withdrawDate: withdrawDate,
       withdrawTime: withdrawTime,
