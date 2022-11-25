@@ -61,7 +61,7 @@ export class OrdersService {
   }
 
   async findByUser(userId: string) {
-    const orders = await this.ordersRepository.find({ relations: ['userId'] });
+    const orders = await this.ordersRepository.find({ relations: ['user'] });
     return orders.filter((order) => order.user?.id === userId);
   }
 
