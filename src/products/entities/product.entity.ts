@@ -1,7 +1,7 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Cart } from 'src/carts/entities/cart.entity';
 import {
-    BeforeInsert,
+  BeforeInsert,
   Column,
   CreateDateColumn,
   Entity,
@@ -49,7 +49,7 @@ export class Product {
   cart: Cart[];
 
   @BeforeInsert()
-  setUpperCase(){
+  setUpperCase() {
     this.name = this.name
       .toUpperCase()
       .normalize('NFD')
