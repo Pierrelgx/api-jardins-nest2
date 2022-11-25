@@ -22,6 +22,13 @@ export class OrderConfirmService {
 
     const email = order.user.email;
 
+    // const toLocalCurrency = (number: number) => {
+    //   (number / 100).toLocaleString('fr', {
+    //     style: 'currency',
+    //     currency: 'EUR',
+    //   });
+    // };
+
     const orderDate = order.createdAt.toLocaleDateString('fr');
     const orderTime = order.createdAt.toLocaleTimeString('fr', {
       hour: '2-digit',
@@ -36,6 +43,15 @@ export class OrderConfirmService {
       currency: 'EUR',
     });
 
+    const cartDetails = cart.map((x) => [
+      x.quantity,
+      x.product.name,
+      (x.total / 100).toLocaleString('fr', {
+        style: 'currency',
+        currency: 'EUR',
+      }),
+    ]);
+
     const messageBody = template({
       email: email,
       orderDate: orderDate,
@@ -44,7 +60,7 @@ export class OrderConfirmService {
       withdrawDate: withdrawDate,
       withdrawTime: withdrawTime,
       code: order.code,
-      cart: cart,
+      cartDetails: cartDetails,
       url: `https://www.lesjardinsdelalandette.com/orders/${order.id}`,
       mainImage:
         'https://www.shutterstock.com/image-photo/assortment-fresh-fruits-vegetables-600w-553662235.jpg',

@@ -50,8 +50,8 @@
                   Nous avons bien enregistré votre commande le {{ orderDate }} à {{ orderTime }} d'un montant de {{ amount }}.</br> 
                   Vous pourrez récupérer votre commande le {{ withdrawDate }} {{ withdrawTime }}. Votre code est le <strong>{{ code }}</strong>.</br>
                   <ul class="people_list">
-                    {{#each cart}}
-                    <li>Produit: {{ this.product.name }}, Quantité: {{ this.quantity }}.
+                    {{#each cartDetails}}
+                    <li>{{ this }}.
                   </li>
                     {{/each}}
                   </ul>
