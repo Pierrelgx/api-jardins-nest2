@@ -12,6 +12,7 @@ import { OrdersService } from 'src/orders/orders.service';
 import { Order } from 'src/orders/entities/order.entity';
 import { OrderConfirmService } from 'src/mailer/orderconfirm/orderconfirm.service';
 import { WelcomeService } from 'src/mailer/welcome/welcome.service';
+import { AdminOrderConfirmService } from 'src/mailer/adminorderconfirm/adminorderconfirm.service';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Cart, Order, Product, User])],
@@ -23,6 +24,7 @@ import { WelcomeService } from 'src/mailer/welcome/welcome.service';
     OrderConfirmService,
     WelcomeService,
     SendgridService,
+    AdminOrderConfirmService,
   ],
   controllers: [CartsController],
 })

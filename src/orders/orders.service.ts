@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CartsService } from 'src/carts/carts.service';
+import { AdminOrderConfirmService } from 'src/mailer/adminorderconfirm/adminorderconfirm.service';
 import { OrderConfirmService } from 'src/mailer/orderconfirm/orderconfirm.service';
 import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
@@ -15,6 +16,7 @@ export class OrdersService {
     @InjectRepository(User) private usersRepository: Repository<User>,
     private cartsService: CartsService,
     private orderConfirm: OrderConfirmService,
+    private adminOrderConfirm: AdminOrderConfirmService,
   ) {}
 
   async create(
@@ -46,6 +48,8 @@ export class OrdersService {
     const confirmOrder = await this.ordersRepository.save(newOrder);
 
     await this.orderConfirm.sendOrderConfirm(confirmOrder, cartItems);
+
+    await this.adminOrderConfirm.sendAdminOrderConfirm(confirmOrder, cartItems);
 
     cartItems.map((cart) => this.cartsService.remove(cart.id));
 

@@ -4,7 +4,7 @@
   <meta http-equiv="content-type" content="text/html; charset=utf-8">
   <meta name="viewport" content="width=device-width; initial-scale=1.0; maximum-scale=1.0;">
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700;900&display=swap" rel="stylesheet">
-  <title>Merci pour votre commande !</title>
+  <title>Nouvelle commande !</title>
   <link rel="icon" type="image/x-icon" href="favicon.ico">
 </head>
 <body leftmargin="0" topmargin="0">
@@ -23,18 +23,13 @@
               </tr>
 
               <tr>
-                <td align="center" style="text-align: center;">
-                  <img src={{ mainImage }} width="40" border="0" alt="Image centrale">
-                </td>
-              </tr>
-              <tr>
                 <td height="30" style="font-size:30px; line-height: 30px;">
                   &nbsp;
                 </td>
               </tr>
               <tr>
                 <td align="center" style="font-family: 'Roboto', Helvetica, sans-serif; font-size:35px; text-align: center; color: #85d30c; mso-line-height-rule: exactly; line-height: 25px;">
-                  Merci pour votre commande !
+                  Nouvelle commande !
                 </td>
               </tr>
               <tr>
@@ -44,16 +39,17 @@
               </tr>
               <tr>
                 <td align="center" style="font-family: 'Roboto', Helvetica, sans-serif; text-align: center; color: #000; mso-line-height-rule: exactly; line-height: 30px;">
-                  {{ email }}, <br/>
-                  Nous avons bien enregistré votre commande le {{ orderDate }} à {{ orderTime }} d'un montant de {{ amount }}.<br/> 
-                  Vous pourrez récupérer votre commande le {{ withdrawDate }} {{ withdrawTime }}. Votre code est le <strong>{{ code }}</strong>.<br/>
+                  Nouvelle commande de {{ email }} le {{ orderDate }} à {{ orderTime }}.<br/>
+                  Total de la commande: {{ amount }}.<br/> 
+                  Retrait de la commande: {{ withdrawDate }} {{ withdrawTime }}.<br/> 
+                  Code de retrait: <strong>{{ code }}</strong>.<br/>
+                  <strong>Articles et quantités:</strong>
                   <ul class="people_list">
                     {{#each cartDetails}}
                     <li>{{ this }}.
                   </li>
                     {{/each}}
                   </ul>
-                  A bientôt sur notre site !
                 </td>
               </tr>
               <tr>
@@ -68,7 +64,7 @@
                       <tr>
                         <td align="center" bgcolor="#85d30c" height="60" style="border-radius: 100px;">
                           <a href={{ url }} style="font-family: 'Roboto', Helvetica, sans-serif; font-size:25px; font-weight: 400; text-align: center; color: #000; text-decoration: none;">
-                            Retrouver ma commande
+                            Voir la commande
                           </a>
                         </td>
                       </tr>
