@@ -20,7 +20,10 @@ export class OrderConfirmService {
     const template = hbs.compile(emailTemplate);
 
     const orderDate = order.createdAt.toLocaleDateString('fr');
-    const orderTime = order.createdAt.getHours() + ':' + order.createdAt.getMinutes();
+    const orderTime = order.createdAt.toLocaleTimeString('fr', {
+      hour: '2-digit',
+      minute: '2-digit',
+    });
     const withdrawDate = order.withdrawDate.split('-').reverse().join('-');
     const withdrawTime = order.withdrawMorning
       ? 'de 10h à 14h'
