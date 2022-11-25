@@ -11,6 +11,14 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+export enum ProductType {
+  LEGUME = 'legume',
+  FRUIT = 'fruit',
+  MIEL = 'miel',
+  OEUFS = 'oeufs',
+  DIVERS = 'divers',
+}
+
 @Entity()
 export class Product {
   @PrimaryGeneratedColumn('uuid')
@@ -25,9 +33,13 @@ export class Product {
   @ApiProperty()
   price: number;
 
-  @Column()
+  @Column({
+    type: 'enum',
+    enum: ProductType,
+    default: ProductType.LEGUME,
+  })
   @ApiProperty()
-  types: string;
+  types: ProductType;
 
   @Column()
   @ApiProperty()
