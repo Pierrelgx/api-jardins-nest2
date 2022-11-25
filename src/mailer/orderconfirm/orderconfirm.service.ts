@@ -4,6 +4,7 @@ import { SendgridService } from '../sendgrid.service';
 import * as hbs from 'handlebars';
 import * as fs from 'fs';
 import { Order } from '../../orders/entities/order.entity';
+import { Cart } from 'src/carts/entities/cart.entity';
 
 @Injectable()
 export class OrderConfirmService {
@@ -12,12 +13,14 @@ export class OrderConfirmService {
     private configService: ConfigService,
   ) {}
 
-  public async sendOrderConfirm(email: string, order: Order) {
+  public async sendOrderConfirm(order: Order, cart: Cart[]) {
     const emailTemplate = fs
       .readFileSync('./dist/src/mailer/orderconfirm/orderconfirm.hbs')
       .toString();
 
     const template = hbs.compile(emailTemplate);
+
+    const email = order.user.email;
 
     const orderDate = order.createdAt.toLocaleDateString('fr');
     const orderTime = order.createdAt.toLocaleTimeString('fr', {
@@ -41,6 +44,7 @@ export class OrderConfirmService {
       withdrawDate: withdrawDate,
       withdrawTime: withdrawTime,
       code: order.code,
+      cart: cart,
       url: `https://www.lesjardinsdelalandette.com/orders/${order.id}`,
       mainImage:
         'https://www.shutterstock.com/image-photo/assortment-fresh-fruits-vegetables-600w-553662235.jpg',

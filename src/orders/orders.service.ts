@@ -45,7 +45,7 @@ export class OrdersService {
 
     const confirmOrder = await this.ordersRepository.save(newOrder);
 
-    await this.orderConfirm.sendOrderConfirm(user.email, confirmOrder);
+    await this.orderConfirm.sendOrderConfirm(confirmOrder, cartItems);
 
     cartItems.map((cart) => this.cartsService.remove(cart.id));
 
