@@ -12,7 +12,7 @@ export class OrderConfirmService {
   constructor(
     private readonly sendgridService: SendgridService,
     private configService: ConfigService,
-    private orderHelper: OrderHelper,
+    private orderHelper: OrderMailerService,
   ) {}
 
   public async sendOrderConfirm(order: Order, cart: Cart[]) {

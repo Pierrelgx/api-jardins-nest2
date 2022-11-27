@@ -7,8 +7,6 @@ export class OrderMailerService {
   async setOrderDetails(order: Order, cart: Cart[]) {
     const email = order.user.email;
 
-    const code = order.code;
-
     const orderDate = order.createdAt.toLocaleDateString('fr');
     const orderTime = order.createdAt.toLocaleTimeString('fr', {
       hour: '2-digit',
@@ -25,10 +23,10 @@ export class OrderMailerService {
       currency: 'EUR',
     });
 
-    const cartDetails = cart.map((x) => [
-      x.quantity,
-      x.product.name,
-      (x.total / 100).toLocaleString('fr', {
+    const cartDetails = cart.map((cart) => [
+      cart.quantity,
+      cart.product.name,
+      (cart.total / 100).toLocaleString('fr', {
         style: 'currency',
         currency: 'EUR',
       }),
@@ -36,7 +34,6 @@ export class OrderMailerService {
 
     return {
       email,
-      code,
       orderDate,
       orderTime,
       amount,
