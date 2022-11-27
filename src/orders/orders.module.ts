@@ -11,6 +11,7 @@ import { CartsService } from 'src/carts/carts.service';
 import { ProductsService } from 'src/products/products.service';
 import { User } from 'src/users/entities/user.entity';
 import { AdminOrderConfirmService } from 'src/mailer/adminorderconfirm/adminorderconfirm.service';
+import { OrderHelper } from 'src/mailer/ordermailer.helper';
 
 @Module({
   imports: [TypeOrmModule.forFeature([Order, Product, Cart, User])],
@@ -22,6 +23,7 @@ import { AdminOrderConfirmService } from 'src/mailer/adminorderconfirm/adminorde
     SendgridService,
     OrderConfirmService,
     AdminOrderConfirmService,
+    OrderHelper,
   ],
 })
 export class OrdersModule {}

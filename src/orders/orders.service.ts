@@ -24,6 +24,8 @@ export class OrdersService {
     code: number,
     createOrderDto: CreateOrderDto,
   ): Promise<any> {
+    code = Math.floor(1000 + Math.random() * 9000);
+
     const cartItems = await this.cartsService.getItemsInCart(userId);
 
     const amount = cartItems
@@ -33,8 +35,6 @@ export class OrdersService {
     const user = await this.usersRepository.findOneBy({ id: userId });
 
     const cart = cartItems.map((item) => item.product);
-
-    code = Math.floor(1000 + Math.random() * 9000);
 
     const newOrder = this.ordersRepository.create({
       user,
