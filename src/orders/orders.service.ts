@@ -43,24 +43,22 @@ export class OrdersService {
       ...createOrderDto,
     });
 
-    const cart = cartItems.map((cart) =>
-      this.orderProductsService.create(
-        cart.product.id,
-        cart.quantity,
-        newOrder.id,
-      ),
+    cartItems.map(
+      async (cart) =>
+        await this.orderProductsService.create(
+          cart.product.id,
+          cart.quantity,
+          newOrder.id,
+        ),
     );
 
-    const confirmOrder = await this.ordersRepository.save({
-      ...newOrder,
-      cart,
-    });
+    const confirmOrder = await this.ordersRepository.save(newOrder);
 
     await this.orderConfirm.sendOrderConfirm(confirmOrder, cartItems);
 
     await this.adminOrderConfirm.sendAdminOrderConfirm(confirmOrder, cartItems);
 
-    cartItems.map((cart) => this.cartsService.remove(cart.id));
+    cartItems.map(async (cart) => await this.cartsService.remove(cart.id));
 
     return confirmOrder;
   }
@@ -69,7 +67,6 @@ export class OrdersService {
     return this.ordersRepository.find({
       relations: {
         user: true,
-        orderProducts: true,
       },
     });
   }
@@ -84,7 +81,9 @@ export class OrdersService {
       where: { id: id },
       relations: {
         user: true,
-        orderProducts: true,
+        orderProducts: {
+          product: true,
+        },
       },
     });
   }

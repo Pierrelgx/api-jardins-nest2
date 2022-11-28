@@ -16,8 +16,15 @@ import { Cart } from 'src/carts/entities/cart.entity';
 @Module({
   imports: [
     TypeOrmModule.forFeature([OrderProduct, Product, Order, User, Cart]),
-    MailerModule],
-  providers: [OrderProductsService, ProductsService, OrdersService, UsersService, CartsService],
+    MailerModule,
+  ],
+  providers: [
+    OrderProductsService,
+    ProductsService,
+    OrdersService,
+    UsersService,
+    CartsService,
+  ],
   controllers: [OrderProductsController],
   exports: [OrderProductsService],
 })
