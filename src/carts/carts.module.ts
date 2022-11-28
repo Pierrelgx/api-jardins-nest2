@@ -7,27 +7,16 @@ import { CartsService } from './carts.service';
 import { Cart } from './entities/cart.entity';
 import { CartsController } from './carts.controller';
 import { UsersService } from 'src/users/users.service';
-import { SendgridService } from 'src/mailer/sendgrid.service';
 import { OrdersService } from 'src/orders/orders.service';
 import { Order } from 'src/orders/entities/order.entity';
-import { OrderConfirmService } from 'src/mailer/orderconfirm/orderconfirm.service';
-import { WelcomeService } from 'src/mailer/welcome/welcome.service';
-import { AdminOrderConfirmService } from 'src/mailer/adminorderconfirm/adminorderconfirm.service';
-import { OrderMailerService } from 'src/mailer/ordermailer.service';
+import { MailerModule } from 'src/mailer/mailer.module';
 
 @Module({
-  imports: [TypeOrmModule.forFeature([Cart, Order, Product, User])],
-  providers: [
-    CartsService,
-    OrdersService,
-    ProductsService,
-    UsersService,
-    OrderConfirmService,
-    WelcomeService,
-    SendgridService,
-    AdminOrderConfirmService,
-    OrderMailerService,
+  imports: [
+    TypeOrmModule.forFeature([Cart, Order, Product, User]),
+    MailerModule,
   ],
+  providers: [CartsService, OrdersService, ProductsService, UsersService],
   controllers: [CartsController],
 })
 export class CartsModule {}

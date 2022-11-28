@@ -12,6 +12,7 @@ import { APP_GUARD } from '@nestjs/core';
 import { AdminGuard } from './authorization/admin.guard';
 import { OwnerIdGuard } from './authorization/ownerId.guard';
 import { CartsModule } from './carts/carts.module';
+import { MailerModule } from './mailer/mailer.module';
 
 @Module({
   imports: [
@@ -22,6 +23,7 @@ import { CartsModule } from './carts/carts.module';
     OrdersModule,
     CartsModule,
     AuthModule,
+    MailerModule,
   ],
   controllers: [AppController],
   providers: [
