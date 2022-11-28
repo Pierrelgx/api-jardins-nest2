@@ -1,7 +1,9 @@
 import {
   Body,
   Controller,
+  Delete,
   Get,
+  Param,
   Post,
   Request,
   UseGuards,
@@ -26,5 +28,10 @@ export class CartsController {
   @Get()
   async GetItemsInCart(@Request() req): Promise<Cart[]> {
     return await this.cartsService.getItemsInCart(req.user.id);
+  }
+
+  @Delete(':id')
+  async DeleteCart(@Param('id') id: string) {
+    return await this.cartsService.remove(id);
   }
 }
