@@ -8,6 +8,7 @@ import { OrderConfirmService } from 'src/mailer/orderconfirm/orderconfirm.servic
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
+import { OrderProductsService } from 'src/orderproducts/orderproducts.service';
 
 @Injectable()
 export class OrdersService {
@@ -15,6 +16,7 @@ export class OrdersService {
     @InjectRepository(Order) private ordersRepository: Repository<Order>,
     private usersService: UsersService,
     private cartsService: CartsService,
+    private orderProductsService: OrderProductsService,
     private orderConfirm: OrderConfirmService,
     private adminOrderConfirm: AdminOrderConfirmService,
   ) {}
@@ -34,8 +36,6 @@ export class OrdersService {
 
     const user = await this.usersService.findOne(userId);
 
-    const cart = cartItems.map((item) => item.product);
-
     const newOrder = this.ordersRepository.create({
       user,
       code,
@@ -43,9 +43,18 @@ export class OrdersService {
       ...createOrderDto,
     });
 
-    newOrder.products = cart;
+    const cart = cartItems.map((cart) =>
+      this.orderProductsService.create(
+        cart.product.id,
+        cart.quantity,
+        newOrder.id,
+      ),
+    );
 
-    const confirmOrder = await this.ordersRepository.save(newOrder);
+    const confirmOrder = await this.ordersRepository.save({
+      ...newOrder,
+      cart,
+    });
 
     await this.orderConfirm.sendOrderConfirm(confirmOrder, cartItems);
 
@@ -60,6 +69,7 @@ export class OrdersService {
     return this.ordersRepository.find({
       relations: {
         user: true,
+        orderProducts: true,
       },
     });
   }
@@ -74,6 +84,7 @@ export class OrdersService {
       where: { id: id },
       relations: {
         user: true,
+        orderProducts: true,
       },
     });
   }

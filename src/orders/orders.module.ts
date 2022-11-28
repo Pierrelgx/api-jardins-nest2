@@ -10,13 +10,22 @@ import { OrdersController } from './orders.controller';
 import { MailerModule } from 'src/mailer/mailer.module';
 import { UsersService } from 'src/users/users.service';
 import { ProductsService } from 'src/products/products.service';
+import { OrderProductsService } from 'src/orderproducts/orderproducts.service';
+import { OrderProduct } from 'src/orderproducts/entities/orderproduct.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Order, Product, Cart, User]),
+    TypeOrmModule.forFeature([Order, Product, Cart, User, OrderProduct]),
     MailerModule,
   ],
   controllers: [OrdersController],
-  providers: [OrdersService, CartsService, UsersService, ProductsService],
+  providers: [
+    OrdersService,
+    UsersService,
+    CartsService,
+    ProductsService,
+    OrderProductsService,
+  ],
+  exports: [OrdersService],
 })
 export class OrdersModule {}

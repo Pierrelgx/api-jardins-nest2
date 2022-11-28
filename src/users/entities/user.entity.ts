@@ -38,11 +38,15 @@ export class User {
   updatedAt!: Date;
 
   @ApiProperty()
-  @OneToMany(() => Cart, (cart) => cart.id)
+  @OneToMany(() => Cart, (cart) => cart.id, {
+    cascade: true,
+  })
   carts: Cart[];
 
   @ApiProperty()
-  @OneToMany(() => Order, (order) => order.id)
+  @OneToMany(() => Order, (order) => order.id, {
+    cascade: true,
+  })
   orders: Order[];
 
   @BeforeInsert()

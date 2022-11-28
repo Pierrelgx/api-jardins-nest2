@@ -13,6 +13,7 @@ import { AdminGuard } from './authorization/admin.guard';
 import { OwnerIdGuard } from './authorization/ownerId.guard';
 import { CartsModule } from './carts/carts.module';
 import { MailerModule } from './mailer/mailer.module';
+import { OrderproductsModule } from './orderproducts/orderproducts.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { MailerModule } from './mailer/mailer.module';
     CartsModule,
     AuthModule,
     MailerModule,
+    OrderproductsModule,
   ],
   controllers: [AppController],
   providers: [

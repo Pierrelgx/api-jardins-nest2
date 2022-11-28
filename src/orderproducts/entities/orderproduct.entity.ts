@@ -7,32 +7,28 @@ import {
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Product } from 'src/products/entities/product.entity';
-import { User } from 'src/users/entities/user.entity';
+import { Order } from 'src/orders/entities/order.entity';
 
 @Entity()
-export class Cart {
+export class OrderProduct {
   @PrimaryGeneratedColumn('uuid')
   id: string;
-
-  @Column()
-  @ApiProperty()
-  total: number;
 
   @Column()
   @ApiProperty()
   quantity: number;
 
   @ApiProperty()
-  @ManyToOne(() => Product, (product) => product.carts, {
+  @ManyToOne(() => Product, (product) => product.orderProducts, {
     onDelete: 'SET NULL',
   })
   @JoinColumn()
   product: Product;
 
   @ApiProperty()
-  @ManyToOne(() => User, (user) => user.carts, {
+  @ManyToOne(() => Order, (order) => order.orderProducts, {
     onDelete: 'SET NULL',
   })
   @JoinColumn()
-  user: User;
+  order: Order;
 }

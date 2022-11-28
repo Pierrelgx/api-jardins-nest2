@@ -9,8 +9,8 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { Product } from 'src/products/entities/product.entity';
 import { User } from 'src/users/entities/user.entity';
+import { OrderProduct } from 'src/orderproducts/entities/orderproduct.entity';
 
 @Entity()
 export class Order {
@@ -42,13 +42,15 @@ export class Order {
   @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt!: Date;
 
-  @ManyToOne(() => User, (user) => user.id, {
+  @ManyToOne(() => User, (user) => user.orders, {
     onDelete: 'SET NULL',
   })
   @JoinColumn()
   user: User;
 
   @ApiProperty()
-  @OneToMany(() => Product, (product) => product.id)
-  products: Product[];
+  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.order, {
+    cascade: true,
+  })
+  orderProducts: OrderProduct[];
 }

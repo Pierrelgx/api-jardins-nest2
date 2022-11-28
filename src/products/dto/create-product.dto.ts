@@ -1,6 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { IsUrl } from 'class-validator';
-import { ProductType } from '../entities/product.entity';
 
 export class CreateProductDto {
   @ApiProperty()
@@ -10,7 +9,7 @@ export class CreateProductDto {
   price: number;
 
   @ApiProperty()
-  types: ProductType;
+  types: string;
 
   @ApiProperty()
   @IsUrl()

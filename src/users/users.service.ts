@@ -14,20 +14,11 @@ export class UsersService {
   ) {}
 
   findAll() {
-    return this.usersRepository.find({
-      relations: {
-        orders: true,
-      },
-    });
+    return this.usersRepository.find();
   }
 
   findOne(id: string) {
-    return this.usersRepository.findOne({
-      where: { id: id },
-      relations: {
-        orders: true,
-      },
-    });
+    return this.usersRepository.findOne({ where: { id: id } });
   }
 
   findOneByEmail(email: string) {

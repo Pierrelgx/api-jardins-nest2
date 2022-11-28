@@ -1,6 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Entity } from 'typeorm';
-import { Product } from 'src/products/entities/product.entity';
+import { OrderProduct } from 'src/orderproducts/entities/orderproduct.entity';
 
 @Entity()
 export class CreateOrderDto {
@@ -20,5 +20,5 @@ export class CreateOrderDto {
   userId: number;
 
   @ApiProperty()
-  products: Product[];
+  orderProducts: OrderProduct[];
 }

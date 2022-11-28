@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { Cart } from 'src/carts/entities/cart.entity';
+import { OrderProduct } from 'src/orderproducts/entities/orderproduct.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
@@ -10,14 +11,6 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-
-export enum ProductType {
-  LEGUME = 'legume',
-  FRUIT = 'fruit',
-  MIEL = 'miel',
-  OEUFS = 'oeufs',
-  DIVERS = 'divers',
-}
 
 @Entity()
 export class Product {
@@ -33,13 +26,9 @@ export class Product {
   @ApiProperty()
   price: number;
 
-  @Column({
-    type: 'enum',
-    enum: ProductType,
-    default: ProductType.LEGUME,
-  })
+  @Column({ default: 'legume' })
   @ApiProperty()
-  types: ProductType;
+  types: string;
 
   @Column()
   @ApiProperty()
@@ -58,8 +47,16 @@ export class Product {
   updatedAt!: Date;
 
   @ApiProperty()
-  @OneToMany(() => Cart, (cart) => cart.id)
-  cart: Cart[];
+  @OneToMany(() => Cart, (cart) => cart.product, {
+    cascade: true,
+  })
+  carts: Cart[];
+
+  @ApiProperty()
+  @OneToMany(() => OrderProduct, (orderProduct) => orderProduct.product, {
+    cascade: true,
+  })
+  orderProducts: OrderProduct[];
 
   @BeforeInsert()
   @BeforeUpdate()
