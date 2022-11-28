@@ -9,9 +9,6 @@ import {
   UseGuards,
   Request,
 } from '@nestjs/common';
-import { OrdersService } from './orders.service';
-import { CreateOrderDto } from './dto/create-order.dto';
-import { UpdateOrderDto } from './dto/update-order.dto';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
@@ -20,6 +17,9 @@ import {
   ApiTags,
 } from '@nestjs/swagger';
 import { Order } from './entities/order.entity';
+import { OrdersService } from './orders.service';
+import { CreateOrderDto } from './dto/create-order.dto';
+import { UpdateOrderDto } from './dto/update-order.dto';
 import { AuthenticatedGuard } from 'src/authentication/authenticated.guard';
 
 @UseGuards(AuthenticatedGuard)

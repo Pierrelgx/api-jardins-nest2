@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
+import { UsersService } from 'src/users/users.service';
 import { CartsService } from 'src/carts/carts.service';
 import { AdminOrderConfirmService } from 'src/mailer/adminorderconfirm/adminorderconfirm.service';
 import { OrderConfirmService } from 'src/mailer/orderconfirm/orderconfirm.service';
-import { User } from 'src/users/entities/user.entity';
-import { Repository } from 'typeorm';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
@@ -13,7 +13,7 @@ import { Order } from './entities/order.entity';
 export class OrdersService {
   constructor(
     @InjectRepository(Order) private ordersRepository: Repository<Order>,
-    @InjectRepository(User) private usersRepository: Repository<User>,
+    private usersService: UsersService,
     private cartsService: CartsService,
     private orderConfirm: OrderConfirmService,
     private adminOrderConfirm: AdminOrderConfirmService,
@@ -32,7 +32,7 @@ export class OrdersService {
       .map((item) => item.total)
       .reduce((acc, next) => acc + next, 0);
 
-    const user = await this.usersRepository.findOneBy({ id: userId });
+    const user = await this.usersService.findOne(userId);
 
     const cart = cartItems.map((item) => item.product);
 

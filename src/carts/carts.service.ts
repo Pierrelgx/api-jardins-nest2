@@ -1,17 +1,16 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { ProductsService } from 'src/products/products.service';
-import { User } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 import { Cart } from './entities/cart.entity';
+import { ProductsService } from 'src/products/products.service';
+import { UsersService } from 'src/users/users.service';
 
 @Injectable()
 export class CartsService {
   constructor(
     @InjectRepository(Cart)
     private cartsRepository: Repository<Cart>,
-    @InjectRepository(User)
-    private usersRepository: Repository<User>,
+    private usersService: UsersService,
     private productsService: ProductsService,
   ) {}
 
@@ -24,7 +23,7 @@ export class CartsService {
       relations: ['product', 'user'],
     });
     const product = await this.productsService.findOne(productId);
-    const user = await this.usersRepository.findOneBy({ id: userId });
+    const user = await this.usersService.findOne(userId);
 
     if (product) {
       const cart = cartItems.filter(

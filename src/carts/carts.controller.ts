@@ -8,8 +8,8 @@ import {
 } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
 import { AuthenticatedGuard } from 'src/authentication/authenticated.guard';
-import { CartsService } from './carts.service';
 import { Cart } from './entities/cart.entity';
+import { CartsService } from './carts.service';
 
 @UseGuards(AuthenticatedGuard)
 @Controller('carts')

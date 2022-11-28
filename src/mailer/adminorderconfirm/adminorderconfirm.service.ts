@@ -1,10 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { SendgridService } from '../sendgrid.service';
 import * as hbs from 'handlebars';
 import * as fs from 'fs';
 import { Order } from '../../orders/entities/order.entity';
 import { Cart } from 'src/carts/entities/cart.entity';
+import { SendgridService } from '../sendgrid.service';
 import { OrderMailerService } from '../ordermailer.service';
 
 @Injectable()

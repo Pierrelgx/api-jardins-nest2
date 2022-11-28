@@ -1,8 +1,8 @@
 import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
-import { SendgridService } from '../sendgrid.service';
 import * as hbs from 'handlebars';
 import * as fs from 'fs';
+import { SendgridService } from '../sendgrid.service';
 
 @Injectable()
 export class WelcomeService {
