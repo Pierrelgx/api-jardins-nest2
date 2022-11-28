@@ -8,11 +8,13 @@ import {
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
+  Check,
 } from 'typeorm';
 import { User } from 'src/users/entities/user.entity';
 import { OrderProduct } from 'src/orderproducts/entities/orderproduct.entity';
 
 @Entity()
+@Check('"amount" > 0')
 export class Order {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty()

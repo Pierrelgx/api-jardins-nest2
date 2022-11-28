@@ -11,6 +11,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Cart } from 'src/carts/entities/cart.entity';
+import { IsEmail } from 'class-validator';
 
 @Entity()
 export class User {
@@ -18,6 +19,7 @@ export class User {
   id: string;
 
   @Column({ unique: true })
+  @IsEmail()
   @ApiProperty()
   email: string;
 
