@@ -17,6 +17,12 @@ async function bootstrap() {
     password: process.env.DATABASE_PASSWORD,
   });
 
+  app.enableCors({
+    allowedHeaders: ['content-type'],
+    origin: process.env.ALLOWED_URL,
+    credentials: true,
+  });
+
   app.use(
     session({
       store: new (pgSession(session))({
