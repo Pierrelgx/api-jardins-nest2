@@ -18,11 +18,14 @@ export class UsersService {
   }
 
   findOne(id: string) {
-    return this.usersRepository.findOne({ where: { id: id } });
+    return this.usersRepository.findOneBy({ id: id });
   }
 
   findOneByEmail(email: string) {
-    return this.usersRepository.findOneBy({ email });
+    return this.usersRepository.findOne({
+      where: { email: email },
+      relations: { orders: true },
+    });
   }
 
   async create(createUserDto: CreateUserDto) {
