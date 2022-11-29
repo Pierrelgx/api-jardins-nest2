@@ -32,7 +32,7 @@ export class CartsService {
 
       if (cart.length < 1) {
         const newItem = this.cartsRepository.create({
-          total: product.price * quantity,
+          subTotal: product.price * quantity,
           quantity,
           user,
           product,

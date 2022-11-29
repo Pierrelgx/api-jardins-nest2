@@ -16,7 +16,7 @@ export class Cart {
 
   @Column()
   @ApiProperty()
-  total: number;
+  subTotal: number;
 
   @Column()
   @ApiProperty()

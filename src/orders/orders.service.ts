@@ -31,7 +31,7 @@ export class OrdersService {
     const cartItems = await this.cartsService.getItemsInCart(userId);
 
     const amount = cartItems
-      .map((item) => item.total)
+      .map((item) => item.subTotal)
       .reduce((acc, next) => acc + next, 0);
 
     const user = await this.usersService.findOne(userId);

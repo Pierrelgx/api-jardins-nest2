@@ -26,7 +26,7 @@ export class OrderMailerService {
     const cartDetails = cart.map((cart) => [
       cart.quantity,
       cart.product.name,
-      (cart.total / 100).toLocaleString('fr', {
+      (cart.subTotal / 100).toLocaleString('fr', {
         style: 'currency',
         currency: 'EUR',
       }),
