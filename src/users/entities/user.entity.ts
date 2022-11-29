@@ -5,6 +5,7 @@ import {
   Column,
   CreateDateColumn,
   Entity,
+  JoinColumn,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
@@ -40,13 +41,13 @@ export class User {
   updatedAt!: Date;
 
   @ApiProperty()
-  @OneToMany(() => Cart, (cart) => cart.id, {
+  @OneToMany(() => Cart, (cart) => cart.user, {
     cascade: true,
   })
   carts: Cart[];
 
   @ApiProperty()
-  @OneToMany(() => Order, (order) => order.id, {
+  @OneToMany(() => Order, (order) => order.user, {
     cascade: true,
   })
   orders: Order[];

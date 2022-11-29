@@ -18,7 +18,10 @@ export class UsersService {
   }
 
   findOne(id: string) {
-    return this.usersRepository.findOneBy({ id: id });
+    return this.usersRepository.findOne({
+      where: { id: id },
+      relations: { orders: true },
+    });
   }
 
   findOneByEmail(email: string) {
