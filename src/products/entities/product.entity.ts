@@ -4,6 +4,7 @@ import { OrderProduct } from 'src/orderproducts/entities/orderproduct.entity';
 import {
   BeforeInsert,
   BeforeUpdate,
+  Check,
   Column,
   CreateDateColumn,
   Entity,
@@ -13,6 +14,7 @@ import {
 } from 'typeorm';
 
 @Entity()
+@Check('"price" > 0')
 export class Product {
   @PrimaryGeneratedColumn('uuid')
   @ApiProperty()
@@ -26,7 +28,7 @@ export class Product {
   @ApiProperty()
   price: number;
 
-  @Column({ default: 'legume' })
+  @Column({ default: 'legumes' })
   @ApiProperty()
   types: string;
 

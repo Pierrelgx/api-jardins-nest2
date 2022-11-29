@@ -11,7 +11,7 @@ import {
 } from 'typeorm';
 import * as bcrypt from 'bcrypt';
 import { Cart } from 'src/carts/entities/cart.entity';
-import { IsEmail } from 'class-validator';
+import { IsEmail, MinLength } from 'class-validator';
 
 @Entity()
 export class User {
@@ -24,6 +24,7 @@ export class User {
   email: string;
 
   @Column()
+  @MinLength(10)
   @ApiProperty()
   password: string;
 
