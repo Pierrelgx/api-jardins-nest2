@@ -9,10 +9,11 @@ export class OrderProductsController {
 
   @Post()
   async AddProductToOrder(@Body() body): Promise<any> {
-    const { product, quantity, order } = body;
+    const { product, quantity, subTotal, order } = body;
     return await this.orderProductsService.create(
       product.id,
       quantity,
+      subTotal,
       order.id,
     );
   }

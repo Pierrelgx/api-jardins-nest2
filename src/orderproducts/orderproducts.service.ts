@@ -15,13 +15,19 @@ export class OrderProductsService {
     private ordersRepository: Repository<Order>,
   ) {}
 
-  async create(productId: string, quantity: number, orderId: string) {
+  async create(
+    productId: string,
+    quantity: number,
+    subTotal: number,
+    orderId: string,
+  ) {
     const product = await this.productsService.findOne(productId);
     const order = await this.ordersRepository.findOneBy({ id: orderId });
 
     const newOrder = this.orderProductsRepository.create({
       product,
       quantity,
+      subTotal,
       order,
     });
     return await this.orderProductsRepository.save(newOrder);

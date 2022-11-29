@@ -18,6 +18,10 @@ export class OrderProduct {
   @ApiProperty()
   quantity: number;
 
+  @Column()
+  @ApiProperty()
+  subTotal: number;
+
   @ApiProperty()
   @ManyToOne(() => Product, (product) => product.orderProducts, {
     onDelete: 'SET NULL',

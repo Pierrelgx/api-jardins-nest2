@@ -48,6 +48,7 @@ export class OrdersService {
         await this.orderProductsService.create(
           cart.product.id,
           cart.quantity,
+          cart.subTotal,
           newOrder.id,
         ),
     );
