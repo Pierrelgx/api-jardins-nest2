@@ -13,7 +13,10 @@ export class UsersService {
     private welcomeService: WelcomeService,
   ) {}
 
-  findAll() {
+  findAll(email?: string) {
+    if (email) {
+      return this.findOneByEmail(email);
+    }
     return this.usersRepository.find();
   }
 

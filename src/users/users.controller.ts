@@ -7,6 +7,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   Request,
   UseGuards,
 } from '@nestjs/common';
@@ -15,6 +16,7 @@ import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { LocalAuthGuard } from 'src/authentication/local-auth.guard';
@@ -31,10 +33,11 @@ export class UsersController {
   constructor(private usersService: UsersService) {}
 
   @ApiOkResponse({ type: User, isArray: true, description: 'finds all users' })
+  @ApiQuery({ name: 'email', required: false })
   @Get()
   @Admin(true)
-  getUsers() {
-    return this.usersService.findAll();
+  getUsers(@Query('email') email?: string) {
+    return this.usersService.findAll(email);
   }
 
   @ApiOkResponse({ type: User, description: 'finds a specific user' })
