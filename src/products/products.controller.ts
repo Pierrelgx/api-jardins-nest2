@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   NotFoundException,
+  Query,
 } from '@nestjs/common';
 import { ProductsService } from './products.service';
 import { CreateProductDto } from './dto/create-product.dto';
@@ -16,9 +17,10 @@ import {
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { Product } from './entities/product.entity';
+import { Product, ProductTypes } from './entities/product.entity';
 import { Admin } from '../authorization/admin.decorator';
 
 @ApiTags('products')
@@ -39,9 +41,14 @@ export class ProductsController {
     isArray: true,
     description: 'finds all products',
   })
+  @ApiQuery({ name: 'name', required: false })
+  @ApiQuery({ name: 'productType', required: false })
   @Get()
-  findAll() {
-    return this.productsService.findAll();
+  findAll(
+    @Query('name') name?: string,
+    @Query('productType') productType?: ProductTypes,
+  ) {
+    return this.productsService.findAll(name, productType);
   }
 
   @ApiOkResponse({ type: Product, description: 'finds a specific product' })
