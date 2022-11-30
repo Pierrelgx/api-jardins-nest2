@@ -14,7 +14,11 @@ export class ProductsService {
   findAll(name?: string, productType?: ProductTypes): Promise<Product[]> {
     if (name || productType) {
       return this.productsRepository.find({
-        where: { name: ILike(`${name}%`) } || { productType: productType },
+        where: {
+          name: ILike(
+            `${name.normalize('NFD').replace(/[\u0300-\u036f]/g, '')}%`,
+          ),
+        } || { productType: productType },
       });
     }
     return this.productsRepository.find();
