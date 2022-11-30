@@ -36,7 +36,7 @@ export class UsersController {
   @ApiQuery({ name: 'email', required: false })
   @Get()
   @Admin(true)
-  getUsers(@Query('email') email?: string) {
+  getUsers(@Query('email') email?: string): Promise<User[]> | Promise<User> {
     return this.usersService.findAll(email);
   }
 
@@ -44,7 +44,7 @@ export class UsersController {
   @ApiNotFoundResponse()
   @Get(':id')
   @OwnerId(true)
-  getUserById(@Param('id') id: string) {
+  getUserById(@Param('id') id: string): Promise<User> {
     const user = this.usersService.findOne(id);
     if (!user) {
       throw new NotFoundException();
@@ -56,19 +56,19 @@ export class UsersController {
   @ApiCreatedResponse({ type: User, description: 'create new user' })
   @ApiBadRequestResponse()
   @Post()
-  createUser(@Body() body: CreateUserDto) {
+  createUser(@Body() body: CreateUserDto): Promise<User> {
     return this.usersService.create(body);
   }
 
   @Patch(':id')
   @Admin(true)
-  update(@Param('id') id: string, @Body() body: UpdateUserDto) {
+  update(@Param('id') id: string, @Body() body: UpdateUserDto): Promise<User> {
     return this.usersService.update(id, body);
   }
 
   @Delete(':id')
   @OwnerId(true)
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<User> {
     return this.usersService.remove(id);
   }
 
@@ -79,7 +79,7 @@ export class UsersController {
   }
 
   @Post('logout')
-  logout(@Request() req) {
+  logout(@Request() req): any {
     req.logout(function (err: Error) {
       if (err) {
         return err.message;

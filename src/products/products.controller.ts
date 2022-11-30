@@ -28,14 +28,6 @@ import { Admin } from '../authorization/admin.decorator';
 export class ProductsController {
   constructor(private readonly productsService: ProductsService) {}
 
-  @ApiCreatedResponse({ type: Product, description: 'create new product' })
-  @ApiBadRequestResponse()
-  @Post()
-  @Admin(true)
-  create(@Body() createProductDto: CreateProductDto) {
-    return this.productsService.create(createProductDto);
-  }
-
   @ApiOkResponse({
     type: Product,
     isArray: true,
@@ -47,14 +39,14 @@ export class ProductsController {
   findAll(
     @Query('name') name?: string,
     @Query('productType') productType?: ProductTypes,
-  ) {
+  ): Promise<Product[]> {
     return this.productsService.findAll(name, productType);
   }
 
   @ApiOkResponse({ type: Product, description: 'finds a specific product' })
   @ApiNotFoundResponse()
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Product> {
     const product = this.productsService.findOne(id);
     if (!product) {
       throw new NotFoundException();
@@ -62,15 +54,26 @@ export class ProductsController {
     return this.productsService.findOne(id);
   }
 
+  @ApiCreatedResponse({ type: Product, description: 'create new product' })
+  @ApiBadRequestResponse()
+  @Post()
+  @Admin(true)
+  create(@Body() createProductDto: CreateProductDto): Promise<Product> {
+    return this.productsService.create(createProductDto);
+  }
+
   @Patch(':id')
   @Admin(true)
-  update(@Param('id') id: string, @Body() updateProductDto: UpdateProductDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateProductDto: UpdateProductDto,
+  ): Promise<Product> {
     return this.productsService.update(id, updateProductDto);
   }
 
   @Delete(':id')
   @Admin(true)
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<Product> {
     return this.productsService.remove(id);
   }
 }

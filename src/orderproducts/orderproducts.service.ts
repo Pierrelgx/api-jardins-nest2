@@ -20,7 +20,7 @@ export class OrderProductsService {
     quantity: number,
     subTotal: number,
     orderId: string,
-  ) {
+  ): Promise<OrderProduct> {
     const product = await this.productsService.findOne(productId);
     const order = await this.ordersRepository.findOneBy({ id: orderId });
 

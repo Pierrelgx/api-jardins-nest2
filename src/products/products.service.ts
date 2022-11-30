@@ -11,30 +11,36 @@ export class ProductsService {
     @InjectRepository(Product) private productsRepository: Repository<Product>,
   ) {}
 
-  create(createProductDto: CreateProductDto) {
-    const newProduct = this.productsRepository.create(createProductDto);
-
-    return this.productsRepository.save(newProduct);
+  findAll(name?: string, productType?: ProductTypes): Promise<Product[]> {
+    if (name || productType) {
+      return this.productsRepository.find({
+        where: { name: Like(`${name}%`) } || { productType: productType },
+      });
+    }
+    return this.productsRepository.find();
   }
 
-  findAll(name?: string, productType?: ProductTypes) {
-    return this.productsRepository.find({
-      where: { name: Like(`${name}%`) } || { productType: productType },
-    });
-  }
-
-  findOne(id: string) {
+  findOne(id: string): Promise<Product> {
     return this.productsRepository.findOneBy({ id });
   }
 
-  async update(id: string, updateProductDto: UpdateProductDto) {
+  async create(createProductDto: CreateProductDto): Promise<Product> {
+    const newProduct = this.productsRepository.create(createProductDto);
+
+    return await this.productsRepository.save(newProduct);
+  }
+
+  async update(
+    id: string,
+    updateProductDto: UpdateProductDto,
+  ): Promise<Product> {
     const product = await this.findOne(id);
     return this.productsRepository.save(
       Object.assign(product, updateProductDto),
     );
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<Product> {
     const product = await this.findOne(id);
 
     return this.productsRepository.remove(product);

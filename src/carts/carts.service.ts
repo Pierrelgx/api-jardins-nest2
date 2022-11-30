@@ -18,7 +18,7 @@ export class CartsService {
     productId: string,
     quantity: number,
     userId: string,
-  ): Promise<any> {
+  ): Promise<Cart> {
     const cartItems = await this.cartsRepository.find({
       relations: ['product', 'user'],
     });
@@ -61,7 +61,7 @@ export class CartsService {
     return userCart.filter((item) => item.user.id === userId);
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<Cart> {
     const cart = await this.cartsRepository.findOneBy({ id });
 
     return this.cartsRepository.remove(cart);

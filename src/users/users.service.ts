@@ -13,28 +13,28 @@ export class UsersService {
     private welcomeService: WelcomeService,
   ) {}
 
-  findAll(email?: string) {
+  findAll(email?: string): Promise<User> | Promise<User[]> {
     if (email) {
       return this.findOneByEmail(email);
     }
     return this.usersRepository.find();
   }
 
-  findOne(id: string) {
+  findOne(id: string): Promise<User> {
     return this.usersRepository.findOne({
       where: { id: id },
       relations: { orders: true },
     });
   }
 
-  findOneByEmail(email: string) {
+  findOneByEmail(email: string): Promise<User> {
     return this.usersRepository.findOne({
       where: { email: email },
       relations: { orders: true },
     });
   }
 
-  async create(createUserDto: CreateUserDto) {
+  async create(createUserDto: CreateUserDto): Promise<User> {
     const user = await this.findOneByEmail(createUserDto.email);
     if (user) {
       throw new ForbiddenException({
@@ -45,18 +45,18 @@ export class UsersService {
 
     await this.welcomeService.sendWelcome(newUser.email);
 
-    return this.usersRepository.save(newUser);
+    return await this.usersRepository.save(newUser);
   }
 
-  async update(id: string, updateUserDto: UpdateUserDto) {
+  async update(id: string, updateUserDto: UpdateUserDto): Promise<User> {
     const user = await this.findOne(id);
 
-    return this.usersRepository.save({ ...user, ...updateUserDto });
+    return await this.usersRepository.save({ ...user, ...updateUserDto });
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<User> {
     const user = await this.findOne(id);
 
-    return this.usersRepository.remove(user);
+    return await this.usersRepository.remove(user);
   }
 }

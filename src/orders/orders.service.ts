@@ -21,11 +21,35 @@ export class OrdersService {
     private adminOrderConfirm: AdminOrderConfirmService,
   ) {}
 
+  findAll(withdrawDate?: string): Promise<Order[]> {
+    if (withdrawDate) {
+      return this.ordersRepository.find({
+        where: { withdrawDate: withdrawDate },
+        relations: {
+          user: true,
+        },
+      });
+    }
+    return this.ordersRepository.find();
+  }
+
+  findOne(id: string): Promise<Order> {
+    return this.ordersRepository.findOne({
+      where: { id: id },
+      relations: {
+        user: true,
+        orderProducts: {
+          product: true,
+        },
+      },
+    });
+  }
+
   async create(
     userId: string,
     code: number,
     createOrderDto: CreateOrderDto,
-  ): Promise<any> {
+  ): Promise<Order> {
     code = Math.floor(1000 + Math.random() * 9000);
 
     const cartItems = await this.cartsService.getItemsInCart(userId);
@@ -64,33 +88,12 @@ export class OrdersService {
     return confirmOrder;
   }
 
-  findAll(withdrawDate?: string) {
-    return this.ordersRepository.find({
-      where: { withdrawDate: withdrawDate },
-      relations: {
-        user: true,
-      },
-    });
-  }
-
-  findOne(id: string) {
-    return this.ordersRepository.findOne({
-      where: { id: id },
-      relations: {
-        user: true,
-        orderProducts: {
-          product: true,
-        },
-      },
-    });
-  }
-
-  async update(id: string, updateOrderDto: UpdateOrderDto) {
+  async update(id: string, updateOrderDto: UpdateOrderDto): Promise<Order> {
     const order = await this.findOne(id);
     return this.ordersRepository.save({ ...order, ...updateOrderDto });
   }
 
-  async remove(id: string) {
+  async remove(id: string): Promise<Order> {
     const order = await this.findOne(id);
 
     return this.ordersRepository.remove(order);

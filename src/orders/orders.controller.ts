@@ -30,13 +30,6 @@ import { AuthenticatedGuard } from 'src/authentication/authenticated.guard';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @ApiCreatedResponse({ type: Order, description: 'create new order' })
-  @ApiBadRequestResponse()
-  @Post()
-  create(@Request() req, code: number, @Body() createOrderDto: CreateOrderDto) {
-    return this.ordersService.create(req.user.id, code, createOrderDto);
-  }
-
   @ApiOkResponse({
     type: Order,
     isArray: true,
@@ -44,24 +37,38 @@ export class OrdersController {
   })
   @ApiQuery({ name: 'withdrawDate', required: false })
   @Get()
-  findAll(@Query('withdrawDate') withdrawDate?: string) {
+  findAll(@Query('withdrawDate') withdrawDate?: string): Promise<Order[]> {
     return this.ordersService.findAll(withdrawDate);
   }
 
   @ApiOkResponse({ type: Order, description: 'find a specific order' })
   @ApiNotFoundResponse()
   @Get(':id')
-  findOne(@Param('id') id: string) {
+  findOne(@Param('id') id: string): Promise<Order> {
     return this.ordersService.findOne(id);
   }
 
+  @ApiCreatedResponse({ type: Order, description: 'create new order' })
+  @ApiBadRequestResponse()
+  @Post()
+  create(
+    @Request() req,
+    code: number,
+    @Body() createOrderDto: CreateOrderDto,
+  ): Promise<Order> {
+    return this.ordersService.create(req.user.id, code, createOrderDto);
+  }
+
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateOrderDto: UpdateOrderDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateOrderDto: UpdateOrderDto,
+  ): Promise<Order> {
     return this.ordersService.update(id, updateOrderDto);
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
+  remove(@Param('id') id: string): Promise<Order> {
     return this.ordersService.remove(id);
   }
 }

@@ -20,7 +20,7 @@ export class CartsController {
   constructor(private cartsService: CartsService) {}
 
   @Post()
-  async AddToCart(@Body() body, @Request() req): Promise<void> {
+  async AddToCart(@Body() body, @Request() req): Promise<Cart> {
     const { productId, quantity } = body;
     return await this.cartsService.addToCart(productId, quantity, req.user.id);
   }
@@ -31,7 +31,7 @@ export class CartsController {
   }
 
   @Delete(':id')
-  async DeleteCart(@Param('id') id: string) {
+  async DeleteCart(@Param('id') id: string): Promise<Cart> {
     return await this.cartsService.remove(id);
   }
 }
