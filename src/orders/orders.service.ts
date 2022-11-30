@@ -43,17 +43,17 @@ export class OrdersService {
       ...createOrderDto,
     });
 
+    const confirmOrder = await this.ordersRepository.save(newOrder);
+
     cartItems.map(
       async (cart) =>
         await this.orderProductsService.create(
           cart.product.id,
           cart.quantity,
           cart.subTotal,
-          newOrder.id,
+          confirmOrder.id,
         ),
     );
-
-    const confirmOrder = await this.ordersRepository.save(newOrder);
 
     await this.orderConfirm.sendOrderConfirm(confirmOrder, cartItems);
 
