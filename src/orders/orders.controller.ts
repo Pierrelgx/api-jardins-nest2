@@ -8,12 +8,14 @@ import {
   Delete,
   UseGuards,
   Request,
+  Query,
 } from '@nestjs/common';
 import {
   ApiBadRequestResponse,
   ApiCreatedResponse,
   ApiNotFoundResponse,
   ApiOkResponse,
+  ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
 import { Order } from './entities/order.entity';
@@ -40,9 +42,10 @@ export class OrdersController {
     isArray: true,
     description: 'finds all orders',
   })
+  @ApiQuery({ name: 'withdrawDate', required: false })
   @Get()
-  findAll() {
-    return this.ordersService.findAll();
+  findAll(@Query('withdrawDate') withdrawDate?: string) {
+    return this.ordersService.findAll(withdrawDate);
   }
 
   @ApiOkResponse({ type: Order, description: 'find a specific order' })

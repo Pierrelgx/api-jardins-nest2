@@ -64,17 +64,13 @@ export class OrdersService {
     return confirmOrder;
   }
 
-  findAll() {
+  findAll(withdrawDate?: string) {
     return this.ordersRepository.find({
+      where: { withdrawDate: withdrawDate },
       relations: {
         user: true,
       },
     });
-  }
-
-  async findByUser(userId: string) {
-    const orders = await this.ordersRepository.find({ relations: ['user'] });
-    return orders.filter((order) => order.user?.id === userId);
   }
 
   findOne(id: string) {
