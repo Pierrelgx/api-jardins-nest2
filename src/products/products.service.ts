@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Like, Repository } from 'typeorm';
+import { ILike, Repository } from 'typeorm';
 import { CreateProductDto } from './dto/create-product.dto';
 import { UpdateProductDto } from './dto/update-product.dto';
 import { Product, ProductTypes } from './entities/product.entity';
@@ -14,7 +14,7 @@ export class ProductsService {
   findAll(name?: string, productType?: ProductTypes): Promise<Product[]> {
     if (name || productType) {
       return this.productsRepository.find({
-        where: { name: Like(`${name}%`) } || { productType: productType },
+        where: { name: ILike(`${name}%`) } || { productType: productType },
       });
     }
     return this.productsRepository.find();
