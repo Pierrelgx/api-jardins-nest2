@@ -13,7 +13,7 @@ export class OrderMailerService {
       minute: '2-digit',
     });
 
-    const withdrawDate = order.withdrawDate.split('-').reverse().join('-');
+    const withdrawDate = order.withdrawDate.split('-').reverse().join('/');
     const withdrawTime = order.withdrawMorning
       ? 'de 10h à 14h'
       : 'de 14h à 19h';
