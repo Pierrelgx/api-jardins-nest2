@@ -9,6 +9,7 @@ import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { Order } from './entities/order.entity';
 import { OrderProductsService } from 'src/orderproducts/orderproducts.service';
+import { Cart } from 'src/carts/entities/cart.entity';
 
 @Injectable()
 export class OrdersService {
@@ -45,20 +46,16 @@ export class OrdersService {
     });
   }
 
-  async create(
-    userId: string,
-    code: number,
-    createOrderDto: CreateOrderDto,
-  ): Promise<Order> {
-    code = Math.floor(1000 + Math.random() * 9000);
+  async create(userId: string, createOrderDto: CreateOrderDto): Promise<Order> {
+    const code = Math.floor(1000 + Math.random() * 9000);
 
     const cartItems = await this.cartsService.getItemsInCart(userId);
+
+    const user = await this.usersService.findOne(userId);
 
     const amount = cartItems
       .map((item) => item.subTotal)
       .reduce((acc, next) => acc + next, 0);
-
-    const user = await this.usersService.findOne(userId);
 
     const newOrder = this.ordersRepository.create({
       user,
@@ -69,19 +66,9 @@ export class OrdersService {
 
     const confirmOrder = await this.ordersRepository.save(newOrder);
 
-    cartItems.map(
-      async (cart) =>
-        await this.orderProductsService.create(
-          cart.product.id,
-          cart.quantity,
-          cart.subTotal,
-          confirmOrder.id,
-        ),
-    );
+    await this.createOrderItems(confirmOrder, cartItems);
 
-    await this.orderConfirm.sendOrderConfirm(confirmOrder, cartItems);
-
-    await this.adminOrderConfirm.sendAdminOrderConfirm(confirmOrder, cartItems);
+    await this.sendConfirmEmails(confirmOrder, cartItems);
 
     cartItems.map(async (cart) => await this.cartsService.remove(cart.id));
 
@@ -97,5 +84,22 @@ export class OrdersService {
     const order = await this.findOne(id);
 
     return this.ordersRepository.remove(order);
+  }
+
+  async sendConfirmEmails(confirmOrder: Order, cartItems: Cart[]) {
+    await this.orderConfirm.sendOrderConfirm(confirmOrder, cartItems);
+    await this.adminOrderConfirm.sendAdminOrderConfirm(confirmOrder, cartItems);
+  }
+
+  async createOrderItems(confirmOrder: Order, cartItems: Cart[]) {
+    cartItems.map(
+      async (cart) =>
+        await this.orderProductsService.create(
+          cart.product.id,
+          cart.quantity,
+          cart.subTotal,
+          confirmOrder.id,
+        ),
+    );
   }
 }

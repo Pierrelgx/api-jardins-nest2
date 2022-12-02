@@ -53,10 +53,9 @@ export class OrdersController {
   @Post()
   create(
     @Request() req,
-    code: number,
     @Body() createOrderDto: CreateOrderDto,
   ): Promise<Order> {
-    return this.ordersService.create(req.user.id, code, createOrderDto);
+    return this.ordersService.create(req.user.id, createOrderDto);
   }
 
   @Patch(':id')
