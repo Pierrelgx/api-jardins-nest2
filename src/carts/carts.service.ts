@@ -25,7 +25,7 @@ export class CartsService {
 
     const cart = await this.cartsHelper.findCartItem(
       cartItems,
-      createCartDto.productId,
+      product.id,
       userId,
     );
 
