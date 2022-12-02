@@ -12,6 +12,7 @@ import { CartsService } from 'src/carts/carts.service';
 import { MailerModule } from 'src/mailer/mailer.module';
 import { User } from 'src/users/entities/user.entity';
 import { Cart } from 'src/carts/entities/cart.entity';
+import { CartsHelper } from 'src/carts/carts.helper';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { Cart } from 'src/carts/entities/cart.entity';
     OrdersService,
     UsersService,
     CartsService,
+    CartsHelper,
   ],
   controllers: [OrderProductsController],
   exports: [OrderProductsService],

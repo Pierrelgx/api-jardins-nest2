@@ -9,14 +9,15 @@ import { MailerModule } from 'src/mailer/mailer.module';
 import { OrderProduct } from 'src/orderproducts/entities/orderproduct.entity';
 import { UsersService } from 'src/users/users.service';
 import { ProductsService } from 'src/products/products.service';
+import { CartsHelper } from './carts.helper';
 
 @Module({
   imports: [
     TypeOrmModule.forFeature([Cart, User, Product, OrderProduct]),
     MailerModule,
   ],
-  providers: [CartsService, UsersService, ProductsService],
+  providers: [CartsService, UsersService, ProductsService, CartsHelper],
   controllers: [CartsController],
-  exports: [CartsService],
+  exports: [CartsService, CartsHelper],
 })
 export class CartsModule {}

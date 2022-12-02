@@ -2,9 +2,10 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { Cart } from './entities/cart.entity';
-import { ProductsService } from 'src/products/products.service';
 import { UsersService } from 'src/users/users.service';
 import { CreateCartDto } from 'src/carts/dto/create-cart.dto';
+import { CartsHelper } from './carts.helper';
+import { Product } from 'src/products/entities/product.entity';
 
 @Injectable()
 export class CartsService {
@@ -12,7 +13,7 @@ export class CartsService {
     @InjectRepository(Cart)
     private cartsRepository: Repository<Cart>,
     private usersService: UsersService,
-    private productsService: ProductsService,
+    private cartsHelper: CartsHelper,
   ) {}
 
   async addToCart(createCartDto: CreateCartDto, userId: string): Promise<Cart> {
@@ -20,38 +21,20 @@ export class CartsService {
       relations: ['product', 'user'],
     });
 
-    const product = await this.productsService.findOne(createCartDto.productId);
+    const product = await this.cartsHelper.findProduct(createCartDto.productId);
 
-    if (!product) {
-      return null;
-    }
-
-    const user = await this.usersService.findOne(userId);
-
-    const cart = cartItems.filter(
-      (item) => item.product.id === product.id && item.user.id === userId,
+    const cart = await this.cartsHelper.findCartItem(
+      cartItems,
+      createCartDto.productId,
+      userId,
     );
 
     if (cart.length < 1) {
-      const newItem = this.cartsRepository.create({
-        subTotal: product.price * createCartDto.quantity,
-        user,
-        product,
-        ...createCartDto,
-      });
-
-      return await this.cartsRepository.save(newItem);
-    } else {
-      const updatedCart = await this.cartsRepository.findOneBy({
-        id: cart[0].id,
-      });
-
-      return await this.cartsRepository.save({
-        ...updatedCart,
-        subTotal: product.price * createCartDto.quantity,
-        ...createCartDto,
-      });
+      this.cartsHelper.checkQuantity(createCartDto);
+      return await this.create(product, createCartDto, userId);
     }
+
+    return await this.update(cart[0].id, createCartDto, product);
   }
 
   async getItemsInCart(userId: string): Promise<Cart[]> {
@@ -59,6 +42,35 @@ export class CartsService {
       relations: ['product', 'user'],
     });
     return userCart.filter((item) => item.user.id === userId);
+  }
+
+  async create(product: Product, createCartDto: CreateCartDto, userId: string) {
+    const user = await this.usersService.findOne(userId);
+
+    const newItem = this.cartsRepository.create({
+      subTotal: product.price * createCartDto.quantity,
+      user,
+      product,
+      ...createCartDto,
+    });
+
+    return await this.cartsRepository.save(newItem);
+  }
+
+  async update(cartId: string, createCartDto: CreateCartDto, product: Product) {
+    const updatedCart = await this.cartsRepository.findOneBy({
+      id: cartId,
+    });
+
+    if (createCartDto.quantity <= 0) {
+      return await this.remove(updatedCart.id);
+    }
+
+    return await this.cartsRepository.save({
+      ...updatedCart,
+      subTotal: product.price * createCartDto.quantity,
+      ...createCartDto,
+    });
   }
 
   async remove(id: string): Promise<Cart> {

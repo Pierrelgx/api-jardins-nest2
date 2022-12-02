@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsUrl } from 'class-validator';
+import { IsPositive, IsUrl } from 'class-validator';
 import { ProductTypes } from '../entities/product.entity';
 
 export class CreateProductDto {
@@ -7,6 +7,7 @@ export class CreateProductDto {
   name: string;
 
   @ApiProperty()
+  @IsPositive()
   price: number;
 
   @ApiProperty()

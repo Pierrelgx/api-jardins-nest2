@@ -12,6 +12,7 @@ import { UsersService } from 'src/users/users.service';
 import { ProductsService } from 'src/products/products.service';
 import { OrderProductsService } from 'src/orderproducts/orderproducts.service';
 import { OrderProduct } from 'src/orderproducts/entities/orderproduct.entity';
+import { CartsHelper } from 'src/carts/carts.helper';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { OrderProduct } from 'src/orderproducts/entities/orderproduct.entity';
     OrdersService,
     UsersService,
     CartsService,
+    CartsHelper,
     ProductsService,
     OrderProductsService,
   ],
