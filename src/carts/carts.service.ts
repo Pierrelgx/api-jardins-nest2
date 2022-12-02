@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { Cart } from './entities/cart.entity';
 import { ProductsService } from 'src/products/products.service';
 import { UsersService } from 'src/users/users.service';
+import { CreateCartDto } from 'src/carts/dto/create-cart.dto';
 
 @Injectable()
 export class CartsService {
@@ -14,28 +15,24 @@ export class CartsService {
     private productsService: ProductsService,
   ) {}
 
-  async addToCart(
-    productId: string,
-    quantity: number,
-    userId: string,
-  ): Promise<Cart> {
+  async addToCart(createCartDto: CreateCartDto, userId: string): Promise<Cart> {
     const cartItems = await this.cartsRepository.find({
       relations: ['product', 'user'],
     });
-    const product = await this.productsService.findOne(productId);
+    const product = await this.productsService.findOne(createCartDto.productId);
     const user = await this.usersService.findOne(userId);
 
     if (product) {
       const cart = cartItems.filter(
-        (item) => item.product.id === productId && item.user.id === userId,
+        (item) => item.product.id === product.id && item.user.id === userId,
       );
 
       if (cart.length < 1) {
         const newItem = this.cartsRepository.create({
-          subTotal: product.price * quantity,
-          quantity,
+          subTotal: product.price * createCartDto.quantity,
           user,
           product,
+          ...createCartDto,
         });
 
         return await this.cartsRepository.save(newItem);
@@ -46,8 +43,8 @@ export class CartsService {
 
         return await this.cartsRepository.save({
           ...updatedCart,
-          quantity,
-          total: product.price * quantity,
+          subTotal: product.price * createCartDto.quantity,
+          ...createCartDto,
         });
       }
     }

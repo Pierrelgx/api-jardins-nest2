@@ -22,8 +22,7 @@ export class CartsController {
 
   @Post()
   async AddToCart(@Body() body: CreateCartDto, @Request() req): Promise<Cart> {
-    const { productId, quantity } = body;
-    return await this.cartsService.addToCart(productId, quantity, req.user.id);
+    return await this.cartsService.addToCart(body, req.user.id);
   }
 
   @Get()
