@@ -1,33 +1,25 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { User } from 'src/users/entities/user.entity';
-import { Product } from 'src/products/entities/product.entity';
-import { Cart } from 'src/carts/entities/cart.entity';
-import { CartsService } from 'src/carts/carts.service';
 import { Order } from './entities/order.entity';
 import { OrdersService } from './orders.service';
 import { OrdersController } from './orders.controller';
 import { MailerModule } from 'src/mailer/mailer.module';
-import { UsersService } from 'src/users/users.service';
-import { ProductsService } from 'src/products/products.service';
-import { OrderProductsService } from 'src/orderproducts/orderproducts.service';
-import { OrderProduct } from 'src/orderproducts/entities/orderproduct.entity';
-import { CartsHelper } from 'src/carts/carts.helper';
+import { UsersModule } from 'src/users/users.module';
+import { ProductsModule } from 'src/products/products.module';
+import { CartsModule } from 'src/carts/carts.module';
+import { OrderproductsModule } from 'src/orderproducts/orderproducts.module';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([Order, Product, Cart, User, OrderProduct]),
+    TypeOrmModule.forFeature([Order]),
     MailerModule,
+    UsersModule,
+    ProductsModule,
+    CartsModule,
+    OrderproductsModule,
   ],
   controllers: [OrdersController],
-  providers: [
-    OrdersService,
-    UsersService,
-    CartsService,
-    CartsHelper,
-    ProductsService,
-    OrderProductsService,
-  ],
+  providers: [OrdersService],
   exports: [OrdersService],
 })
 export class OrdersModule {}
