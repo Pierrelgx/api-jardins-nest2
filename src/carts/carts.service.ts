@@ -19,36 +19,39 @@ export class CartsService {
     const cartItems = await this.cartsRepository.find({
       relations: ['product', 'user'],
     });
+
     const product = await this.productsService.findOne(createCartDto.productId);
+
+    if (!product) {
+      return null;
+    }
+
     const user = await this.usersService.findOne(userId);
 
-    if (product) {
-      const cart = cartItems.filter(
-        (item) => item.product.id === product.id && item.user.id === userId,
-      );
+    const cart = cartItems.filter(
+      (item) => item.product.id === product.id && item.user.id === userId,
+    );
 
-      if (cart.length < 1) {
-        const newItem = this.cartsRepository.create({
-          subTotal: product.price * createCartDto.quantity,
-          user,
-          product,
-          ...createCartDto,
-        });
+    if (cart.length < 1) {
+      const newItem = this.cartsRepository.create({
+        subTotal: product.price * createCartDto.quantity,
+        user,
+        product,
+        ...createCartDto,
+      });
 
-        return await this.cartsRepository.save(newItem);
-      } else {
-        const updatedCart = await this.cartsRepository.findOneBy({
-          id: cart[0].id,
-        });
+      return await this.cartsRepository.save(newItem);
+    } else {
+      const updatedCart = await this.cartsRepository.findOneBy({
+        id: cart[0].id,
+      });
 
-        return await this.cartsRepository.save({
-          ...updatedCart,
-          subTotal: product.price * createCartDto.quantity,
-          ...createCartDto,
-        });
-      }
+      return await this.cartsRepository.save({
+        ...updatedCart,
+        subTotal: product.price * createCartDto.quantity,
+        ...createCartDto,
+      });
     }
-    return null;
   }
 
   async getItemsInCart(userId: string): Promise<Cart[]> {
