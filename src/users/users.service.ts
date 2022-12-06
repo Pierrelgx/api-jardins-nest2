@@ -21,10 +21,7 @@ export class UsersService {
   }
 
   findOne(id: string): Promise<User> {
-    return this.usersRepository.findOne({
-      where: { id: id },
-      relations: { orders: true },
-    });
+    return this.usersRepository.findOneBy({ id: id });
   }
 
   findOneByEmail(email: string): Promise<User> {

@@ -4,7 +4,6 @@ import { OrderProduct } from './entities/orderproduct.entity';
 import { OrderProductsService } from './orderproducts.service';
 
 @Controller('orderproducts')
-@ApiTags('orderproducts')
 export class OrderProductsController {
   constructor(private orderProductsService: OrderProductsService) {}
 
