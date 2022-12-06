@@ -22,14 +22,14 @@ export class Cart {
   @ApiProperty()
   quantity: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Product })
   @ManyToOne(() => Product, (product) => product.carts, {
     onDelete: 'SET NULL',
   })
   @JoinColumn()
   product: Product;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => User })
   @ManyToOne(() => User, (user) => user.carts, {
     onDelete: 'SET NULL',
   })

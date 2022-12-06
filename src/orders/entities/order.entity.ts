@@ -44,6 +44,7 @@ export class Order {
   @UpdateDateColumn({ type: 'timestamptz' })
   updatedAt!: Date;
 
+  @ApiProperty({ type: () => User })
   @ManyToOne(() => User, (user) => user.orders, {
     onDelete: 'SET NULL',
   })

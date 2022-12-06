@@ -22,14 +22,14 @@ export class OrderProduct {
   @ApiProperty()
   subTotal: number;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Product })
   @ManyToOne(() => Product, (product) => product.orderProducts, {
     onDelete: 'SET NULL',
   })
   @JoinColumn()
   product: Product;
 
-  @ApiProperty()
+  @ApiProperty({ type: () => Order })
   @ManyToOne(() => Order, (order) => order.orderProducts, {
     onDelete: 'SET NULL',
   })
