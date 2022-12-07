@@ -37,7 +37,7 @@ export class PasswordResetService {
     return await this.passwordResetMailerService.sendResetLink(pwdReset);
   }
 
-  async reset(id: string, password: UpdateUserDto): Promise<User> {
+  async reset(id: string, password: string): Promise<User> {
     const pwdReset = await this.findOne(id);
     const user = await this.usersService.findOneByEmail(pwdReset.email);
 
@@ -45,7 +45,7 @@ export class PasswordResetService {
       throw new NotFoundException({ msg: 'not found.' });
     }
 
-    return this.usersService.update(user.id, password);
+    return await this.usersService.update(user.id, { password: password });
   }
 
   findOne(id: string): Promise<PasswordReset> {
