@@ -13,7 +13,7 @@ export class WelcomeService {
 
   public async sendWelcome(email: string) {
     const emailTemplate = fs
-      .readFileSync('./dist/src/mailer/welcome/welcome.hbs')
+      .readFileSync('./dist/src/mailer/usermailer/welcome/welcome.hbs')
       .toString();
 
     const template = hbs.compile(emailTemplate);

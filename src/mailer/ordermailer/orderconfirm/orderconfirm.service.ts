@@ -17,7 +17,9 @@ export class OrderConfirmService {
 
   public async sendOrderConfirm(order: Order, cart: Cart[]) {
     const emailTemplate = fs
-      .readFileSync('./dist/src/mailer/orderconfirm/orderconfirm.hbs')
+      .readFileSync(
+        './dist/src/mailer/ordermailer/orderconfirm/orderconfirm.hbs',
+      )
       .toString();
 
     const template = hbs.compile(emailTemplate);

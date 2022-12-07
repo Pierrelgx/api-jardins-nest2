@@ -17,7 +17,9 @@ export class AdminOrderConfirmService {
 
   public async sendAdminOrderConfirm(order: Order, cart: Cart[]) {
     const emailTemplate = fs
-      .readFileSync('./dist/src/mailer/adminorderconfirm/adminorderconfirm.hbs')
+      .readFileSync(
+        './dist/src/mailer/ordermailer/adminorderconfirm/adminorderconfirm.hbs',
+      )
       .toString();
 
     const template = hbs.compile(emailTemplate);
