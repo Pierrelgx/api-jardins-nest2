@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { Order } from '../../src/orders/entities/order.entity';
-import { Cart } from '../../src/carts/entities/cart.entity';
+import { Order } from 'src/orders/entities/order.entity';
+import { Cart } from 'src/carts/entities/cart.entity';
 
 @Injectable()
 export class OrderMailerService {

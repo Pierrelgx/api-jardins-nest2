@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import * as hbs from 'handlebars';
 import * as fs from 'fs';
-import { SendgridService } from '../sendgrid.service';
+import { SendgridService } from 'src/mailer/sendgrid.service';
 
 @Injectable()
 export class WelcomeService {
