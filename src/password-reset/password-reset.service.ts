@@ -38,12 +38,19 @@ export class PasswordResetService {
   }
 
   async reset(id: string, password: string): Promise<User> {
-    const pwdReset = await this.findOne(id);
-    const user = await this.usersService.findOneByEmail(pwdReset.email);
+    if (password.length < 10) {
+      throw new BadRequestException({
+        msg: 'Password must be at least 10 characters',
+      });
+    }
 
-    if (!pwdReset || !user) {
+    const pwdReset = await this.findOne(id);
+
+    if (!pwdReset) {
       throw new NotFoundException({ msg: 'not found.' });
     }
+
+    const user = await this.usersService.findOneByEmail(pwdReset.email);
 
     return await this.usersService.update(user.id, { password: password });
   }
