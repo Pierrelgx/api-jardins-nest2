@@ -14,6 +14,7 @@ import { OwnerIdGuard } from './authorization/ownerId.guard';
 import { CartsModule } from './carts/carts.module';
 import { MailerModule } from './mailer/mailer.module';
 import { OrderproductsModule } from './orderproducts/orderproducts.module';
+import { PasswordResetModule } from './password-reset/password-reset.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { OrderproductsModule } from './orderproducts/orderproducts.module';
     AuthModule,
     MailerModule,
     OrderproductsModule,
+    PasswordResetModule,
   ],
   controllers: [AppController],
   providers: [
