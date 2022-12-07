@@ -6,6 +6,7 @@ import {
 import { InjectRepository } from '@nestjs/typeorm';
 import { PasswordResetMailerService } from 'src/mailer/usermailer/password-reset-mailer/password-reset-mailer.service';
 import { UpdateUserDto } from 'src/users/dto/update-user.dto';
+import { User } from 'src/users/entities/user.entity';
 import { UsersService } from 'src/users/users.service';
 import { Repository } from 'typeorm';
 import { PasswordReset } from './entities/password-reset.entity';
@@ -19,7 +20,7 @@ export class PasswordResetService {
     private passwordResetMailerService: PasswordResetMailerService,
   ) {}
 
-  async create(email: string) {
+  async create(email: string): Promise<any> {
     const user = this.usersService.findOneByEmail(email);
     if (!user) {
       throw new BadRequestException({ msg: 'No User with this email.' });
@@ -36,7 +37,7 @@ export class PasswordResetService {
     return await this.passwordResetMailerService.sendResetLink(pwdReset);
   }
 
-  async reset(id: string, password: UpdateUserDto) {
+  async reset(id: string, password: UpdateUserDto): Promise<User> {
     const pwdReset = await this.findOne(id);
     const user = await this.usersService.findOneByEmail(pwdReset.email);
 
@@ -47,11 +48,11 @@ export class PasswordResetService {
     return this.usersService.update(user.id, password);
   }
 
-  findOne(id: string) {
+  findOne(id: string): Promise<PasswordReset> {
     return this.passwordResetRepository.findOneBy({ id: id });
   }
 
-  findOneByEmail(email: string) {
+  findOneByEmail(email: string): Promise<PasswordReset> {
     return this.passwordResetRepository.findOneBy({ email: email });
   }
 
