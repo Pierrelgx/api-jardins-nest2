@@ -5,10 +5,8 @@ import { User } from 'src/users/entities/user.entity';
 
 @Entity()
 export class CreateOrderDto {
-  @ApiProperty()
   code: number;
 
-  @ApiProperty()
   amount: number;
 
   @ApiProperty()
@@ -17,9 +15,7 @@ export class CreateOrderDto {
   @ApiProperty()
   withdrawMorning: boolean;
 
-  @ApiProperty()
   user: User;
 
-  @ApiProperty()
   orderProducts: OrderProduct[];
 }
