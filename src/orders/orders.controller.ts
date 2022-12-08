@@ -23,6 +23,7 @@ import { OrdersService } from './orders.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import { UpdateOrderDto } from './dto/update-order.dto';
 import { AuthenticatedGuard } from 'src/authentication/authenticated.guard';
+import { Admin } from 'src/authorization/admin.decorator';
 
 @UseGuards(AuthenticatedGuard)
 @ApiTags('orders')
@@ -58,6 +59,7 @@ export class OrdersController {
     return this.ordersService.create(req.user.id, createOrderDto);
   }
 
+  @Admin(true)
   @Patch(':id')
   update(
     @Param('id') id: string,
