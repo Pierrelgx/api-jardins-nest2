@@ -12,7 +12,7 @@ export class OrderConfirmService {
   constructor(
     private readonly sendgridService: SendgridService,
     private configService: ConfigService,
-    private orderHelper: OrderMailerService,
+    private orderMailerService: OrderMailerService,
   ) {}
 
   public async sendOrderConfirm(order: Order, cart: Cart[]) {
@@ -24,7 +24,10 @@ export class OrderConfirmService {
 
     const template = hbs.compile(emailTemplate);
 
-    const orderDetails = await this.orderHelper.setOrderDetails(order, cart);
+    const orderDetails = await this.orderMailerService.setOrderDetails(
+      order,
+      cart,
+    );
 
     const messageBody = template({
       email: orderDetails.email,

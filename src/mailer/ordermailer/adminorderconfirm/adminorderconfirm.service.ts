@@ -10,7 +10,7 @@ import { OrderMailerService } from '../ordermailer.service';
 @Injectable()
 export class AdminOrderConfirmService {
   constructor(
-    private orderHelper: OrderMailerService,
+    private orderMailerService: OrderMailerService,
     private readonly sendgridService: SendgridService,
     private configService: ConfigService,
   ) {}
@@ -26,7 +26,10 @@ export class AdminOrderConfirmService {
 
     const admin = this.configService.get('ADMIN_EMAIL');
 
-    const orderDetails = await this.orderHelper.setOrderDetails(order, cart);
+    const orderDetails = await this.orderMailerService.setOrderDetails(
+      order,
+      cart,
+    );
 
     const messageBody = template({
       email: orderDetails.email,
