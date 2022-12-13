@@ -22,20 +22,20 @@ export class OrdersService {
     private adminOrderConfirm: AdminOrderConfirmService,
   ) {}
 
-  findAll(withdrawDate?: string): Promise<Order[]> {
+  async findAll(withdrawDate?: string): Promise<Order[]> {
     if (withdrawDate) {
-      return this.ordersRepository.find({
+      return await this.ordersRepository.find({
         where: { withdrawDate: withdrawDate },
         relations: {
           user: true,
         },
       });
     }
-    return this.ordersRepository.find();
+    return await this.ordersRepository.find();
   }
 
-  findOne(id: string): Promise<Order> {
-    return this.ordersRepository.findOne({
+  async findOne(id: string): Promise<Order> {
+    return await this.ordersRepository.findOne({
       where: { id: id },
       relations: {
         user: true,
@@ -77,13 +77,13 @@ export class OrdersService {
 
   async update(id: string, updateOrderDto: UpdateOrderDto): Promise<Order> {
     const order = await this.findOne(id);
-    return this.ordersRepository.save({ ...order, ...updateOrderDto });
+    return await this.ordersRepository.save({ ...order, ...updateOrderDto });
   }
 
   async remove(id: string): Promise<Order> {
     const order = await this.findOne(id);
 
-    return this.ordersRepository.remove(order);
+    return await this.ordersRepository.remove(order);
   }
 
   async sendConfirmEmails(confirmOrder: Order, cartItems: Cart[]) {

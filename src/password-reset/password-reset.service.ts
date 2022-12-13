@@ -54,12 +54,12 @@ export class PasswordResetService {
     return await this.usersService.update(user.id, { password: password });
   }
 
-  findOne(id: string): Promise<PasswordReset> {
-    return this.passwordResetRepository.findOneBy({ id: id });
+  async findOne(id: string): Promise<PasswordReset> {
+    return await this.passwordResetRepository.findOneBy({ id: id });
   }
 
-  findOneByEmail(email: string): Promise<PasswordReset> {
-    return this.passwordResetRepository.findOneBy({ email: email });
+  async findOneByEmail(email: string): Promise<PasswordReset> {
+    return await this.passwordResetRepository.findOneBy({ email: email });
   }
 
   async remove(id: string) {

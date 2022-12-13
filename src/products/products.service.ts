@@ -11,9 +11,9 @@ export class ProductsService {
     @InjectRepository(Product) private productsRepository: Repository<Product>,
   ) {}
 
-  findAll(name?: string, productType?: ProductTypes): Promise<Product[]> {
+  async findAll(name?: string, productType?: ProductTypes): Promise<Product[]> {
     if (name || productType) {
-      return this.productsRepository.find({
+      return await this.productsRepository.find({
         where: {
           name: ILike(
             `${name.normalize('NFD').replace(/[\u0300-\u036f]/g, '')}%`,
@@ -21,11 +21,11 @@ export class ProductsService {
         } || { productType: productType },
       });
     }
-    return this.productsRepository.find();
+    return await this.productsRepository.find();
   }
 
-  findOne(id: string): Promise<Product> {
-    return this.productsRepository.findOneBy({ id });
+  async findOne(id: string): Promise<Product> {
+    return await this.productsRepository.findOneBy({ id });
   }
 
   async create(createProductDto: CreateProductDto): Promise<Product> {

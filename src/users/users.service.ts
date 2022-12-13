@@ -13,19 +13,19 @@ export class UsersService {
     private welcomeService: WelcomeService,
   ) {}
 
-  findAll(email?: string): Promise<User> | Promise<User[]> {
+  async findAll(email?: string): Promise<User | User[]> {
     if (email) {
-      return this.findOneByEmail(email);
+      return await this.findOneByEmail(email);
     }
-    return this.usersRepository.find();
+    return await this.usersRepository.find();
   }
 
-  findOne(id: string): Promise<User> {
-    return this.usersRepository.findOneBy({ id: id });
+  async findOne(id: string): Promise<User> {
+    return await this.usersRepository.findOneBy({ id: id });
   }
 
-  findOneByEmail(email: string): Promise<User> {
-    return this.usersRepository.findOne({
+  async findOneByEmail(email: string): Promise<User> {
+    return await this.usersRepository.findOne({
       where: { email: email },
       relations: { orders: true },
     });
