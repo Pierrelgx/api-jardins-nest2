@@ -36,7 +36,7 @@ export class UsersController {
   @ApiQuery({ name: 'email', required: false })
   @Get()
   @Admin(true)
-  getUsers(@Query('email') email?: string): Promise<User[]> | Promise<User> {
+  getUsers(@Query('email') email?: string): Promise<User[] | User> {
     return this.usersService.findAll(email);
   }
 
