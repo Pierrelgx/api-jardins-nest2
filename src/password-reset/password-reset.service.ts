@@ -37,9 +37,9 @@ export class PasswordResetService {
   }
 
   async reset(id: string, password: string): Promise<User> {
-    if (password.length < 10) {
+    if (password.length < 8) {
       throw new BadRequestException({
-        msg: 'Password must be at least 10 characters',
+        msg: 'Password must be at least 8 characters',
       });
     }
 

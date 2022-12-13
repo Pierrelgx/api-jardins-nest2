@@ -25,7 +25,7 @@ export class User {
   email: string;
 
   @Column()
-  @MinLength(10)
+  @MinLength(8)
   @ApiProperty()
   password: string;
 
