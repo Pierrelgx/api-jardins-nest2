@@ -11,6 +11,7 @@ import { ConfigModule } from '@nestjs/config';
 import { APP_GUARD } from '@nestjs/core';
 import { AdminGuard } from './authorization/admin.guard';
 import { OwnerIdGuard } from './authorization/ownerId.guard';
+import { PasswordResetModule } from './password-reset/password-reset.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { OwnerIdGuard } from './authorization/ownerId.guard';
     ProductsModule,
     OrdersModule,
     AuthModule,
+    PasswordResetModule,
   ],
   controllers: [AppController],
   providers: [
