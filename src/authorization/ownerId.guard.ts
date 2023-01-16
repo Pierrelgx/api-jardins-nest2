@@ -16,6 +16,11 @@ export class OwnerIdGuard implements CanActivate {
     }
 
     const request = context.switchToHttp().getRequest();
+
+    if (!request.user) {
+      return false;
+    }
+
     const owner = request.params;
 
     if (request.user.isAdmin || request.user.id === owner.id) {
