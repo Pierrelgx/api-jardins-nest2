@@ -19,7 +19,6 @@ import {
   ApiQuery,
   ApiTags,
 } from '@nestjs/swagger';
-import { AuthenticatedGuard } from 'src/authentication/authenticated.guard';
 import { LocalAuthGuard } from 'src/authentication/local-auth.guard';
 import { Admin } from 'src/authorization/admin.decorator';
 import { OwnerId } from 'src/authorization/ownerId.decorator';
@@ -32,12 +31,6 @@ import { UsersService } from './users.service';
 @Controller('users')
 export class UsersController {
   constructor(private usersService: UsersService) {}
-
-  @Get('auth')
-  // @UseGuards(AuthenticatedGuard)
-  checkAuth(@Request() req): boolean {
-    return req.session.passport.user ? true : false;
-  }
 
   @ApiOkResponse({ type: User, isArray: true, description: 'finds all users' })
   @ApiQuery({ name: 'email', required: false })
