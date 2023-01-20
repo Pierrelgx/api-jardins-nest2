@@ -25,7 +25,7 @@ export class PasswordResetMailerService {
 
     const messageBody = template({
       email: pwdReset.email,
-      url: `http://localhost:4200/reset-password/${token}`,
+      url: `http://localhost:4200/#/reset-password/${token}`,
     });
 
     const mail = {
