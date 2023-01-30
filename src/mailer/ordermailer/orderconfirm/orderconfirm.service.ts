@@ -1,18 +1,18 @@
 import { Injectable } from '@nestjs/common';
-import { ConfigService } from '@nestjs/config';
 import * as hbs from 'handlebars';
 import * as fs from 'fs';
 import { Order } from 'src/orders/entities/order.entity';
 import { Cart } from 'src/carts/entities/cart.entity';
 import { SendgridService } from 'src/mailer/sendgrid.service';
 import { OrderMailerService } from '../ordermailer.service';
+import MailerParams from 'src/mailer/mailer-params.helper';
 
 @Injectable()
 export class OrderConfirmService {
   constructor(
     private readonly sendgridService: SendgridService,
-    private configService: ConfigService,
     private orderMailerService: OrderMailerService,
+    private mailerParams: MailerParams,
   ) {}
 
   public async sendOrderConfirm(order: Order, cart: Cart[]) {
@@ -38,15 +38,14 @@ export class OrderConfirmService {
       withdrawTime: orderDetails.withdrawTime,
       code: order.code,
       cartDetails: orderDetails.cartDetails,
-      url: `https://www.lesjardinsdelalandette.com/orders/${order.id}`,
-      mainImage:
-        'https://www.shutterstock.com/image-photo/assortment-fresh-fruits-vegetables-600w-553662235.jpg',
+      url: orderDetails.orderDetailsUrl,
+      mainImage: this.mailerParams.mainImage,
     });
 
     const mail = {
       to: orderDetails.email,
       subject: 'Merci de votre commande !',
-      from: this.configService.get('SENDGRID_SENDER'),
+      from: this.mailerParams.sender,
       html: messageBody,
     };
 

@@ -1,9 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Order } from 'src/orders/entities/order.entity';
 import { Cart } from 'src/carts/entities/cart.entity';
+import MailerParams from '../mailer-params.helper';
 
 @Injectable()
 export class OrderMailerService {
+  constructor(private mailerParams: MailerParams) {}
+
   async setOrderDetails(order: Order, cart: Cart[]) {
     const email = order.user.email;
 
@@ -32,6 +35,8 @@ export class OrderMailerService {
       }),
     ]);
 
+    const orderDetailsUrl = `${this.mailerParams.mainUrl}/#/order-details/${order.id}`;
+
     return {
       email,
       orderDate,
@@ -40,6 +45,7 @@ export class OrderMailerService {
       withdrawDate,
       withdrawTime,
       cartDetails,
+      orderDetailsUrl,
     };
   }
 }

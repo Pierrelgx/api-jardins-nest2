@@ -5,6 +5,7 @@ import { AdminOrderConfirmService } from './ordermailer/adminorderconfirm/admino
 import { OrderConfirmService } from './ordermailer/orderconfirm/orderconfirm.service';
 import { WelcomeService } from './usermailer/welcome/welcome.service';
 import { PasswordResetMailerService } from './usermailer/password-reset-mailer/password-reset-mailer.service';
+import MailerParams from './mailer-params.helper';
 
 @Module({
   providers: [
@@ -14,6 +15,7 @@ import { PasswordResetMailerService } from './usermailer/password-reset-mailer/p
     AdminOrderConfirmService,
     OrderConfirmService,
     PasswordResetMailerService,
+    MailerParams,
   ],
   exports: [
     WelcomeService,
