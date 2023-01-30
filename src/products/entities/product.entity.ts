@@ -17,9 +17,7 @@ export enum ProductTypes {
   LEGUMES = 'legumes',
   FRUITS = 'fruits',
   OEUFS = 'oeufs',
-  MIEL = 'miel',
   SEC = 'sec',
-  DIVERS = 'divers',
 }
 
 @Entity()
