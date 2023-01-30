@@ -18,6 +18,7 @@ export enum ProductTypes {
   FRUITS = 'fruits',
   OEUFS = 'oeufs',
   MIEL = 'miel',
+  SEC = 'sec',
   DIVERS = 'divers',
 }
 
