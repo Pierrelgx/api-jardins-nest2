@@ -46,6 +46,17 @@ export class OrdersService {
     });
   }
 
+  async findAllByUser(userId: string): Promise<Order[]> {
+    const currentUser = await this.usersService.findOne(userId);
+    const userOrders = await this.ordersRepository
+      .createQueryBuilder()
+      .select('order')
+      .from(Order, 'order')
+      .where('order.user = :user', { user: currentUser.id })
+      .getMany();
+    return userOrders;
+  }
+
   async create(userId: string, createOrderDto: CreateOrderDto): Promise<Order> {
     const code = Math.floor(1000 + Math.random() * 9000);
 

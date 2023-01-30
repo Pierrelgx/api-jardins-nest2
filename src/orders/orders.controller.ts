@@ -42,6 +42,17 @@ export class OrdersController {
     return this.ordersService.findAll(withdrawDate);
   }
 
+  @ApiOkResponse({
+    type: Order,
+    isArray: true,
+    description: 'find all orders related to a specific user',
+  })
+  @ApiNotFoundResponse()
+  @Get('user-orders')
+  findAllByUser(@Request() req): Promise<Order[]> {
+    return this.ordersService.findAllByUser(req.user.id);
+  }
+
   @ApiOkResponse({ type: Order, description: 'find a specific order' })
   @ApiNotFoundResponse()
   @Get(':id')
