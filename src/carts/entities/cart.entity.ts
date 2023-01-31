@@ -1,9 +1,11 @@
 import {
   Column,
+  CreateDateColumn,
   Entity,
   JoinColumn,
   ManyToOne,
   PrimaryGeneratedColumn,
+  UpdateDateColumn,
 } from 'typeorm';
 import { ApiProperty } from '@nestjs/swagger';
 import { Product } from 'src/products/entities/product.entity';
@@ -21,6 +23,14 @@ export class Cart {
   @Column()
   @ApiProperty()
   quantity: number;
+
+  @ApiProperty()
+  @CreateDateColumn({ type: 'timestamptz' })
+  createdAt!: Date;
+
+  @ApiProperty()
+  @UpdateDateColumn({ type: 'timestamptz' })
+  updatedAt!: Date;
 
   @ApiProperty({ type: () => Product })
   @ManyToOne(() => Product, (product) => product.carts, {
