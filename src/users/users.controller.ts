@@ -35,7 +35,7 @@ export class UsersController {
   @ApiOkResponse({ type: User, isArray: true, description: 'finds all users' })
   @ApiQuery({ name: 'email', required: false })
   @Get()
-  @Admin(true)
+  @OwnerId(true)
   getUsers(@Query('email') email?: string): Promise<User[] | User> {
     return this.usersService.findAll(email);
   }

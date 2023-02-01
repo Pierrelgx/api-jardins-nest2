@@ -21,9 +21,13 @@ export class OwnerIdGuard implements CanActivate {
       return false;
     }
 
-    const owner = request.params;
+    const owner = request.query;
 
-    if (request.user.isAdmin || request.user.id === owner.id) {
+    if (
+      request.user.isAdmin ||
+      request.user.email === owner.email ||
+      request.user.id === owner.id
+    ) {
       return true;
     }
     return false;
