@@ -12,13 +12,18 @@ export class ProductsService {
   ) {}
 
   async findAll(name?: string, productType?: ProductTypes): Promise<Product[]> {
-    if (name || productType) {
+    if (name) {
       return await this.productsRepository.find({
         where: {
           name: ILike(
             `${name.normalize('NFD').replace(/[\u0300-\u036f]/g, '')}%`,
           ),
-        } || { productType: productType },
+        },
+      });
+    }
+    if (productType) {
+      return await this.productsRepository.find({
+        where: { productType: productType },
       });
     }
     return await this.productsRepository.find();
