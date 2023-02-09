@@ -38,7 +38,7 @@ async function bootstrap() {
       cookie: {
         sameSite: 'none',
         secure: true,
-        domain: 'https://lesjardinsdelalandette.fr',
+        domain: 'lesjardinsdelalandette.fr',
         httpOnly: true,
         maxAge: 30 * 24 * 60 * 60 * 1000,
       },
