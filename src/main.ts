@@ -6,9 +6,10 @@ import * as session from 'express-session';
 import * as passport from 'passport';
 import pgSession = require('connect-pg-simple');
 import pg = require('pg');
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule);
+  const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const pgPool = new pg.Pool({
     host: process.env.DATABASE_HOST,
     port: parseInt(process.env.DATABASE_PORT),
@@ -17,13 +18,13 @@ async function bootstrap() {
     password: process.env.DATABASE_PASSWORD,
   });
 
-
-
   app.enableCors({
     allowedHeaders: ['content-type'],
     origin: process.env.ALLOWED_URL,
     credentials: true,
   });
+
+  app.set('trust proxy', 1);
 
   app.use(
     session({
