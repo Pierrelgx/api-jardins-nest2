@@ -22,7 +22,7 @@ export class OrdersService {
     private adminOrderConfirm: AdminOrderConfirmService,
   ) {}
 
-  async findAll(withdrawDate?: string): Promise<Order[]> {
+  async findAll(withdrawDate?: string, email?: string): Promise<Order[]> {
     if (withdrawDate) {
       return await this.ordersRepository.find({
         where: { withdrawDate: withdrawDate },
@@ -31,7 +31,15 @@ export class OrdersService {
         },
       });
     }
-    return await this.ordersRepository.find();
+    if (email) {
+      const user = await this.usersService.findOneByEmail(email);
+      return await this.findAllByUser(user.id);
+    }
+    return await this.ordersRepository.find({
+      relations: {
+        user: true,
+      },
+    });
   }
 
   async findOne(id: string): Promise<Order> {

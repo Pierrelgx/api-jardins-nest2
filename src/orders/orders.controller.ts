@@ -37,9 +37,13 @@ export class OrdersController {
     description: 'finds all orders',
   })
   @ApiQuery({ name: 'withdrawDate', required: false })
+  @ApiQuery({ name: 'email', required: false })
   @Get()
-  findAll(@Query('withdrawDate') withdrawDate?: string): Promise<Order[]> {
-    return this.ordersService.findAll(withdrawDate);
+  findAll(
+    @Query('withdrawDate') withdrawDate?: string,
+    @Query('email') email?: string,
+    ): Promise<Order[]> {
+    return this.ordersService.findAll(withdrawDate, email);
   }
 
   @ApiOkResponse({
