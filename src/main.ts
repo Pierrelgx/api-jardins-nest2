@@ -40,7 +40,8 @@ async function bootstrap() {
         secure: true,
         httpOnly: false,
         maxAge: 30 * 24 * 60 * 60 * 1000,
-        domain: 'lesjardinsdelalandette.fr',
+        // domain: 'lesjardinsdelalandette.fr',
+        domain: null,
       },
     }),
   );
