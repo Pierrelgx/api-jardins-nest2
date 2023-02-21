@@ -20,13 +20,13 @@ export class OrderProduct {
   subTotal: number;
 
   @ManyToOne(() => Product, (product) => product.orderProducts, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   product: Product;
 
   @ManyToOne(() => Order, (order) => order.orderProducts, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   order: Order;

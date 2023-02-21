@@ -46,7 +46,7 @@ export class Order {
 
   @ApiProperty({ type: () => User })
   @ManyToOne(() => User, (user) => user.orders, {
-    onDelete: 'SET NULL',
+    onDelete: 'CASCADE',
   })
   @JoinColumn()
   user: User;
