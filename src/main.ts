@@ -18,32 +18,62 @@ async function bootstrap() {
     password: process.env.DATABASE_PASSWORD,
   });
 
+// --------------------------------------
+
+  // app.enableCors({
+  //   allowedHeaders: ['content-type'],
+  //   origin: process.env.ALLOWED_URL,
+  //   credentials: true,
+  // });
+
+  // app.set('trust proxy', 1);
+
+  // app.use(
+  //   session({
+  //     store: new (pgSession(session))({
+  //       pool: pgPool,
+  //       createTableIfMissing: true,
+  //     }),
+  //     secret: process.env.SESSION_SECRET,
+  //     resave: false,
+  //     saveUninitialized: false,
+  //     cookie: {
+  //       sameSite: 'none',
+  //       secure: true,
+  //       httpOnly: false,
+  //       maxAge: 24 * 60 * 60 * 1000,
+  //       // domain: '.lesjardinsdelalandette.fr',
+  //       domain: null,
+  //     },
+  //   }),
+  // );
+
+  // ----------------------------
+
   app.enableCors({
-    allowedHeaders: ['content-type'],
-    origin: process.env.ALLOWED_URL,
+    origin: process.env.ALLOWED_URL, // Assurez-vous de spécifier l'URL d'origine correcte
+    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
+    allowedHeaders: 'Content-Type, Authorization, X-Requested-With',
+    exposedHeaders: 'Content-Disposition',
   });
 
   app.set('trust proxy', 1);
 
   app.use(
     session({
-      store: new (pgSession(session))({
-        pool: pgPool,
-        createTableIfMissing: true,
-      }),
+      store: /* Votre configuration de stockage de session ici */,
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       cookie: {
-        sameSite: 'none',
-        secure: true,
-        httpOnly: false,
-        maxAge: 24 * 60 * 60 * 1000,
-        // domain: '.lesjardinsdelalandette.fr',
-        domain: null,
+        secure: true, // Activez 'secure' uniquement si vous utilisez HTTPS
+        httpOnly: true,
+        sameSite: 'none', // Cette option doit être définie sur 'none' pour permettre aux cookies tiers de fonctionner
+        maxAge: 24 * 60 * 60 * 1000, // Durée de vie du cookie (24 heures dans cet exemple)
+        domain: null, // Spécifiez le domaine ici, en utilisant un point devant le nom de domaine (par exemple, '.lesjardinsdelalandette.fr')
       },
-    }),
+    })
   );
 
   app.use(passport.initialize());
