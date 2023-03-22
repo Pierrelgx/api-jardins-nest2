@@ -20,7 +20,7 @@ async function bootstrap() {
 
   app.enableCors({
     allowedHeaders: ['content-type'],
-    origin: process.env.ALLOWED_URL,
+    origin: 'https://lesjardinsdelalandette.fr',
     credentials: true,
   });
 
@@ -36,7 +36,7 @@ async function bootstrap() {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        sameSite: 'none',
+        sameSite: 'lax',
         secure: true,
         httpOnly: false,
         maxAge: 24 * 60 * 60 * 1000,
