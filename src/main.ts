@@ -18,38 +18,11 @@ async function bootstrap() {
     password: process.env.DATABASE_PASSWORD,
   });
 
-// --------------------------------------
-
   // app.enableCors({
   //   allowedHeaders: ['content-type'],
   //   origin: process.env.ALLOWED_URL,
   //   credentials: true,
   // });
-
-  // app.set('trust proxy', 1);
-
-  // app.use(
-  //   session({
-  //     store: new (pgSession(session))({
-  //       pool: pgPool,
-  //       createTableIfMissing: true,
-  //     }),
-  //     secret: process.env.SESSION_SECRET,
-  //     resave: false,
-  //     saveUninitialized: false,
-  //     cookie: {
-  //       sameSite: 'none',
-  //       secure: true,
-  //       httpOnly: false,
-  //       maxAge: 24 * 60 * 60 * 1000,
-  //       // domain: '.lesjardinsdelalandette.fr',
-  //       domain: null,
-  //     },
-  //   }),
-  // );
-
-  // ----------------------------
-
   app.enableCors({
     origin: process.env.ALLOWED_URL, // Assurez-vous de spécifier l'URL d'origine correcte
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
@@ -62,18 +35,22 @@ async function bootstrap() {
 
   app.use(
     session({
-      store: /* Votre configuration de stockage de session ici */,
+      store: new (pgSession(session))({
+        pool: pgPool,
+        createTableIfMissing: true,
+      }),
       secret: process.env.SESSION_SECRET,
       resave: false,
       saveUninitialized: false,
       cookie: {
-        secure: true, // Activez 'secure' uniquement si vous utilisez HTTPS
+        sameSite: 'none',
+        secure: true,
         httpOnly: true,
-        sameSite: 'none', // Cette option doit être définie sur 'none' pour permettre aux cookies tiers de fonctionner
-        maxAge: 24 * 60 * 60 * 1000, // Durée de vie du cookie (24 heures dans cet exemple)
-        domain: null, // Spécifiez le domaine ici, en utilisant un point devant le nom de domaine (par exemple, '.lesjardinsdelalandette.fr')
+        maxAge: 24 * 60 * 60 * 1000,
+        // domain: '.lesjardinsdelalandette.fr',
+        domain: null,
       },
-    })
+    }),
   );
 
   app.use(passport.initialize());
