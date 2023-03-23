@@ -23,11 +23,9 @@ async function bootstrap() {
   //   origin: process.env.ALLOWED_URL,
   //   credentials: true,
   // });
-  
-  console.log(process.env.ALLOWED_URL);
 
   app.enableCors({
-    origin: process.env.ALLOWED_URL, // Assurez-vous de spécifier l'URL d'origine correcte
+    origin: '*', // Assurez-vous de spécifier l'URL d'origine correcte
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE,OPTIONS',
     credentials: true,
     allowedHeaders: 'Content-Type, Authorization, X-Requested-With',
